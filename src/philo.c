@@ -11,7 +11,7 @@ typedef struct philo
 	int	id;
 	int can_print;
 	double	time_ref;
-	int time_now;
+	unsigned long time;
 	int	time_dif;
 	int	eat;
 	pthread_mutex_t mutex;
@@ -31,10 +31,9 @@ void print(t_philo philo, char *act)
 {
 	gettimeofday(&philo.now, NULL);
 
-	double start_mill = (philo.start.tv_sec) * 1000 + (philo.start.tv_usec) / 1000;
-	double now_mill = (philo.now.tv_sec) * 1000 + (philo.now.tv_usec) / 1000;
-	double total_time = now_mill - start_mill;
-	printf("%fms %d %s\n", total_time, philo.id, act);
+	unsigned long now_mill = (philo.now.tv_sec) * 1000 + (philo.now.tv_usec) / 1000;
+	unsigned long total_time = now_mill - philo.time;
+	printf("%ldms %d %s\n", total_time, philo.id, act);
 }
 
 void *myThreadFun(void *vargp)
@@ -44,14 +43,11 @@ void *myThreadFun(void *vargp)
 	fork = (t_fork *)vargp;
 	int h = fork->id_fork;
 	int z = h+1;
-	/* printf("%d\n", h); */
-	gettimeofday(&fork->philos[h].start, NULL);
 	if (h % 2 != 0)
 		usleep(10000);
 	fork->philos[h].eat = 0; 
 	while (1)
 	{
-		/* printf("%d\n", h); */
 		/* printf("%d %d h-: %d h+1: %d\n",h,z%11 , fork->philos[h].can_print, fork->philos[z%11].can_print); */
 		if (fork->philos[h].can_print && fork->philos[z%11].can_print)
 		{
@@ -77,15 +73,13 @@ void *myThreadFun(void *vargp)
 			print(fork->philos[h], "is thinking");
 			usleep(10000);
 		}
-		/* usleep(10000); */
 	}
     return NULL;
 }
 /*
  * FIX
- * si quito el print del bucle de la x no printea el 1
- * arreglar tiempo -> la hora esta mal se printea 1 segundo despues algo que deberia estar antes
  * añadir argumentos
+ * añadir muerte
  * */
 int main()
 {
@@ -93,16 +87,19 @@ int main()
 	fork.philos = (t_philo*)malloc(sizeof(*(fork.philos)) * 10);
 	int x = -1;
 	while (++x < 11)
+	{
 		pthread_mutex_init(&fork.philos[x].mutex, NULL);
+		gettimeofday(&fork.philos[x].start, NULL);
+		fork.philos[x].time = (fork.philos[x].start.tv_sec * 1000) + (fork.philos[x].start.tv_usec / 1000);
+	}
 	x = -1;
-	
 	while (++x < 11)
 	{
-		printf("%d\n",x);
 		fork.id_fork = x;
 		fork.philos[x].id = x+1; 
 		fork.philos[x].can_print = 1; 
 		pthread_create(&fork.philos[x].thread_id, NULL, myThreadFun, &fork);
+		usleep(1);
 	}
 	x = -1;
 	while (x++ < 10)
