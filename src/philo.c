@@ -1,10 +1,8 @@
 #include "../inc/philo.h"
 #include <sys/time.h>
 #include <time.h>
-/* PASOS */
-/* implementar tiempo */
+/* TO do */
 /* dedatch vs create */
-/* implementar argumentos y muerte */
 
 struct fork;
 typedef struct philo
@@ -46,22 +44,23 @@ void *myThreadFun(void *vargp)
 	fork = (t_fork *)vargp;
 	int h = fork->id_fork;
 	int z = h+1;
-	usleep(100);
-	if (h % 2 != 0)
-		usleep(100);
+	/* printf("%d\n", h); */
 	gettimeofday(&fork->philos[h].start, NULL);
+	if (h % 2 != 0)
+		usleep(10000);
 	fork->philos[h].eat = 0; 
 	while (1)
 	{
+		/* printf("%d\n", h); */
 		/* printf("%d %d h-: %d h+1: %d\n",h,z%11 , fork->philos[h].can_print, fork->philos[z%11].can_print); */
-		if (fork->philos[h].can_print && (fork->philos[z%11].can_print != 0))
+		if (fork->philos[h].can_print && fork->philos[z%11].can_print)
 		{
 			fork->philos[h].eat += 2; 
 			fork->philos[h].can_print = 0;
 			fork->philos[z].can_print = 0;
 			pthread_mutex_lock(&fork->philos[h].mutex);
 			print(fork->philos[h], "has taken a fork");
-			pthread_mutex_lock(&fork->philos[z%10].mutex);
+			pthread_mutex_lock(&fork->philos[z%11].mutex);
 			print(fork->philos[h], "has taken a fork");
 		}
 		if (fork->philos[h].eat == 2)
@@ -71,7 +70,7 @@ void *myThreadFun(void *vargp)
 			print(fork->philos[h], "is sleaping");
 			fork->philos[h].eat = 0; 
 			pthread_mutex_unlock(&fork->philos[h].mutex);
-			pthread_mutex_unlock(&fork->philos[h+1%10].mutex);
+			pthread_mutex_unlock(&fork->philos[z%11].mutex);
 			fork->philos[h].can_print = 1;
 			fork->philos[z].can_print = 1;
 			usleep(10000);
@@ -83,11 +82,10 @@ void *myThreadFun(void *vargp)
     return NULL;
 }
 /*
- * Apuntes
- * Mutex struct in while
- *
  * FIX
- * arreglar ultimo num par ej. EL 10 esta bloqueado y deberia print
+ * si quito el print del bucle de la x no printea el 1
+ * arreglar tiempo -> la hora esta mal se printea 1 segundo despues algo que deberia estar antes
+ * añadir argumentos
  * */
 int main()
 {
@@ -100,11 +98,11 @@ int main()
 	
 	while (++x < 11)
 	{
-		printf("a %d\n",x);
+		printf("%d\n",x);
+		fork.id_fork = x;
 		fork.philos[x].id = x+1; 
 		fork.philos[x].can_print = 1; 
-		fork.id_fork = x;
-		pthread_create(&fork.philos->thread_id, NULL, myThreadFun, &fork);
+		pthread_create(&fork.philos[x].thread_id, NULL, myThreadFun, &fork);
 	}
 	x = -1;
 	while (x++ < 10)
