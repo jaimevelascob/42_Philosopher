@@ -9,8 +9,10 @@ typedef struct philo
 {
 	pthread_t thread_id;
 	int	id;
+	
 	int can_print;
 	unsigned long time_start;
+	unsigned long last_eat;
 	int	time_dif;
 	pthread_mutex_t mutex;
 	struct timeval start;
@@ -37,6 +39,11 @@ void print(t_fork fork, char *act, int num)
 	gettimeofday(&fork.philos[num].now, NULL);
 
 	unsigned long now_mill = (fork.philos[num].now.tv_sec) * 1000 + (fork.philos[num].now.tv_usec) / 1000;
+	if (act == "is eating")
+		fork.philos[num].last_eat = now_mill;
+	/* printf("%ld \n", (now_mill - fork.philos[num].last_eat)); */
+	if ((now_mill - fork.philos[num].last_eat) > fork.time_die)
+		printf("%d %s\n", fork.philos[num].id, "is dead");
 	unsigned long total_time = now_mill - fork.philos[num].time_start;
 	printf("%ldms %d %s\n", total_time, fork.philos[num].id, act);
 	pthread_mutex_unlock(&fork.print);
@@ -50,24 +57,24 @@ void *myThreadFun(void *vargp)
 	int h = fork->id_fork;
 	int z = h+1;
 	if (h % 2 != 0)
-		usleep(10000);
+		usleep(fork->time_eat);
 	while (1)
 	{
 		/* printf("%d %d h-: %d h+1: %d\n",h,z%11 , fork->philos[h].can_print, fork->philos[z%11].can_print); */
 		pthread_mutex_lock(&fork->philos[h].mutex);
-		pthread_mutex_lock(&fork->philos[z%11].mutex);
-		if (fork->philos[h].can_print && fork->philos[z%11].can_print)
+		pthread_mutex_lock(&fork->philos[z % fork->n_philos].mutex);
+		if (fork->philos[h].can_print && fork->philos[z % fork->n_philos].can_print)
 		{
 			fork->philos[h].can_print = 0;
 			fork->philos[z].can_print = 0;
 			print(*fork, "has taken a fork", h);
 			print(*fork, "has taken a fork", h);
 			print(*fork, "is eating", h);
-			usleep(fork->n_eat);
+			usleep(fork->time_eat);
 			fork->philos[h].can_print = 1;
 			fork->philos[z].can_print = 1;
 			pthread_mutex_unlock(&fork->philos[h].mutex);
-			pthread_mutex_unlock(&fork->philos[z%11].mutex);
+			pthread_mutex_unlock(&fork->philos[z % fork->n_philos].mutex);
 			print(*fork, "is sleaping", h);
 			usleep(fork->time_sleep);
 			print(*fork, "is thinking", h);
@@ -77,8 +84,7 @@ void *myThreadFun(void *vargp)
 }
 /*
  * FIX
- * funciona con impares
- * añadir muerte
+ * muerte funciona, falta hacer acabar el programa cuando muera alguien
  * */
 
 long	ft_atoi(const char *str)
@@ -111,8 +117,8 @@ int	ft_check_arg(t_fork *fork, char **argv, int argc)
 		return 0;
 	fork->n_philos = ft_atoi(argv[1]);
 	fork->time_die = ft_atoi(argv[2]);
-	fork->time_eat = ft_atoi(argv[3]);
-	fork->time_sleep = ft_atoi(argv[4]);
+	fork->time_eat = ft_atoi(argv[3]) * 1000;
+	fork->time_sleep = ft_atoi(argv[4]) * 1000;
 	if (argc > 5)
 		fork->n_eat = ft_atoi(argv[5]);
 
@@ -130,11 +136,13 @@ void	init_struct(t_fork *fork)
 	int	x;
 
 	x = -1;
+	fork->philos = (t_philo*)malloc(sizeof(*(fork->philos)) * fork->n_philos);
 	while (++x < fork->n_philos)
 	{
 		pthread_mutex_init(&fork->philos[x].mutex, NULL);
 		gettimeofday(&fork->philos[x].start, NULL);
 		fork->philos[x].time_start = (fork->philos[x].start.tv_sec * 1000) + (fork->philos[x].start.tv_usec / 1000);
+		fork->philos[x].last_eat = fork->philos[x].time_start;
 	}
 	x = -1;
 	while (++x < fork->n_philos)
@@ -155,7 +163,6 @@ int main(int argc, char **argv)
 	pthread_mutex_init(&fork.print, NULL);
 	if	(ft_check_arg(&fork, argv, argc) == 0)
 		return	(0);
-	fork.philos = (t_philo*)malloc(sizeof(*(fork.philos)) * fork.n_philos);
 	init_struct(&fork);
 	x = -1;
 	while (x++ < fork.n_philos)
@@ -163,6 +170,5 @@ int main(int argc, char **argv)
     	pthread_join(fork.philos->thread_id, NULL);
 		printf("finish exec %d\n", x);
 	}
-    printf("After Thread\n");
     exit(0);
 }
