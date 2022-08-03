@@ -2,7 +2,7 @@ CC = gcc -lpthread
 
 CFLAGS = -Wall -Wextra -Werror
 LEAKS = -fsanitize=address
-SRC = src/philo.c 
+SRC = src/philo.c src/philo_utils.c 
 	 
 OBJ = $(SRC:.c=.o)
 all: philo

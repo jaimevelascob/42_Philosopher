@@ -7,8 +7,8 @@
 # include <sys/time.h>
 # include <time.h>
 
-struct	fork;
-typedef struct	philo
+struct	s_fork;
+typedef struct philo
 {
 	pthread_t		thread_id;
 	int				id;
@@ -24,9 +24,9 @@ typedef struct	philo
 	struct t_fork	*fork;
 }	t_philo;
 
-typedef struct	fork
+typedef struct s_fork
 {
-	t_philo	*philos;
+	t_philo			*philos;
 	int				id_fork;
 	long			n_philos;
 	long			n_eat;
@@ -43,8 +43,7 @@ long	ft_atoi(const char *str);
 int		ft_check_arg(t_fork *fork, char **argv, int argc);
 int		print(t_fork *f, char *act, int id);
 int		change_values(t_fork *fork, int h, int z);
-void	*myThreadFun(void *vargp);
+void	*mythreadfun(void *vargp);
 void	watch_exit(t_fork *f, int x);
 
 #endif
-
