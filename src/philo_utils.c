@@ -59,6 +59,7 @@ void	init_struct(t_fork *f)
 
 	x = -1;
 	f->philos = (t_philo *)malloc(sizeof(*(f->philos)) * f->n_philos);
+	pthread_mutex_init(&f->is_dead, NULL);
 	while (++x < f->n_philos)
 	{
 		pthread_mutex_init(&f->philos[x].mutex, NULL);
@@ -77,6 +78,7 @@ void	init_struct(t_fork *f)
 		f->philos[x].id = x + 1;
 		f->philos[x].can_print = 1;
 		pthread_create(&f->philos[x].thread_id, NULL, mythreadfun, f);
+		pthread_detach(f->philos[x].thread_id);
 		usleep(1);
 	}
 }

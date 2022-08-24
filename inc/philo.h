@@ -35,6 +35,7 @@ typedef struct s_fork
 	long			time_eat;
 	long			time_sleep;
 	pthread_mutex_t	print;
+	pthread_mutex_t	is_dead;
 }	t_fork;
 
 void	get_time(t_fork *fork, int num);
@@ -45,5 +46,6 @@ int		print(t_fork *f, char *act, int id);
 int		change_values(t_fork *fork, int h, int z);
 void	*mythreadfun(void *vargp);
 void	watch_exit(t_fork *f, int x);
+int		check_dead(t_fork *f);
 
 #endif
