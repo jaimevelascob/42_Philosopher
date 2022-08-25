@@ -9,6 +9,19 @@ void	get_time(t_fork *fork, int num)
 		- fork->philos[num].t_start;
 }
 
+/* void	sleeping(t_fork *fork, unsigned long time) */
+/* { */
+/* 	long long	now; */
+
+/* 	now = get_time(fork, time); */
+/* 	while (1) */
+/* 	{ */
+/* 		if (get_time() - now >= time) */
+/* 			break ; */
+/* 		usleep(50); */
+/* 	} */
+/* } */
+
 long	ft_atoi(const char *str)
 {
 	int		i;
@@ -78,7 +91,7 @@ void	init_struct(t_fork *f)
 		f->philos[x].id = x + 1;
 		f->philos[x].can_print = 1;
 		pthread_create(&f->philos[x].thread_id, NULL, mythreadfun, f);
-		pthread_detach(f->philos[x].thread_id);
+		/* pthread_detach(f->philos[x].thread_id); */
 		usleep(1);
 	}
 }
