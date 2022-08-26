@@ -38,14 +38,15 @@ typedef struct s_fork
 	pthread_mutex_t	is_dead;
 }	t_fork;
 
-void	get_time(t_fork *fork, int num);
+unsigned long		get_time();
+void	join_and_destroy(t_fork *f, int x, char trigger_dead);
 void	init_struct(t_fork *f);
 long	ft_atoi(const char *str);
 int		ft_check_arg(t_fork *fork, char **argv, int argc);
 int		print(t_fork *f, char *act, int id);
 int		change_values(t_fork *fork, int h, int z);
 void	*mythreadfun(void *vargp);
-void	watch_exit(t_fork *f, int x);
+void	watch_exit(t_fork *f);
 int		check_dead(t_fork *f);
 
 #endif

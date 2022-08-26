@@ -1,26 +1,30 @@
 #include "../inc/philo.h"
 
-void	get_time(t_fork *fork, int num)
+unsigned long	get_time()
 {
-	gettimeofday(&fork->philos[num].now, NULL);
-	fork->philos[num].t_now = (fork->philos[num].now.tv_sec) * 1000
-		+ (fork->philos[num].now.tv_usec) / 1000;
-	fork->philos[num].t_time = fork->philos[num].t_now
-		- fork->philos[num].t_start;
+
+	unsigned long time;
+	struct timeval	t_now;
+
+	gettimeofday(&t_now, NULL);
+	time = t_now.tv_sec * 1000 + t_now.tv_usec / 1000;
+	return time;
 }
 
-/* void	sleeping(t_fork *fork, unsigned long time) */
-/* { */
-/* 	long long	now; */
+void	sleeping(t_fork *fork, unsigned long time, int id)
+{
+	unsigned long	now;
+	unsigned long	second;
 
-/* 	now = get_time(fork, time); */
-/* 	while (1) */
-/* 	{ */
-/* 		if (get_time() - now >= time) */
-/* 			break ; */
-/* 		usleep(50); */
-/* 	} */
-/* } */
+	now = get_time();
+	while (1)
+	{
+		second = get_time();
+		if (get_time() - now >= time)
+			break;
+		usleep(50);
+	}
+}
 
 long	ft_atoi(const char *str)
 {
@@ -52,8 +56,8 @@ int	ft_check_arg(t_fork *fork, char **argv, int argc)
 		return (0);
 	fork->n_philos = ft_atoi(argv[1]);
 	fork->time_die = ft_atoi(argv[2]);
-	fork->time_eat = ft_atoi(argv[3]) * 1000;
-	fork->time_sleep = ft_atoi(argv[4]) * 1000;
+	fork->time_eat = ft_atoi(argv[3]);
+	fork->time_sleep = ft_atoi(argv[4]);
 	if (argc > 5)
 		fork->n_eat = ft_atoi(argv[5]);
 	if (fork->n_philos == 0
@@ -91,7 +95,6 @@ void	init_struct(t_fork *f)
 		f->philos[x].id = x + 1;
 		f->philos[x].can_print = 1;
 		pthread_create(&f->philos[x].thread_id, NULL, mythreadfun, f);
-		/* pthread_detach(f->philos[x].thread_id); */
 		usleep(1);
 	}
 }
