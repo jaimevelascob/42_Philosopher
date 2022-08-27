@@ -1,5 +1,8 @@
 #ifndef PHILO_H
 # define PHILO_H
+# define TAKE 1
+# define SHARE 2
+# define EAT 3
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h> 
@@ -12,7 +15,8 @@ typedef struct philo
 {
 	pthread_t		thread_id;
 	int				id;
-	int				can_print;
+	char			have_fork;
+	int				condition;
 	unsigned long	last_eat;
 	unsigned long	t_now;
 	unsigned long	t_time;
@@ -39,7 +43,7 @@ typedef struct s_fork
 }	t_fork;
 
 unsigned long		get_time();
-void	join_and_destroy(t_fork *f, int x, char trigger_dead);
+void	join_and_destroy(t_fork *f, int x, char trigger_dead, unsigned long time);
 void	init_struct(t_fork *f);
 long	ft_atoi(const char *str);
 int		ft_check_arg(t_fork *fork, char **argv, int argc);

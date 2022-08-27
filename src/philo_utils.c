@@ -80,20 +80,21 @@ void	init_struct(t_fork *f)
 	while (++x < f->n_philos)
 	{
 		pthread_mutex_init(&f->philos[x].mutex, NULL);
-		gettimeofday(&f->philos[x].start, NULL);
-		f->philos[x].t_start = (f->philos[x].start.tv_sec * 1000)
-			+ (f->philos[x].start.tv_usec / 1000);
+		f->philos[x].t_start = get_time();
 		f->philos[x].last_eat = f->philos[x].t_start;
 		f->philos[x].t_now = 0;
 		f->philos[x].have_eaten = 0;
 		f->philos[x].last_eat = f->philos[x].t_start;
+		f->philos[x].have_fork = '0';
 	}
+	if (f->n_philos % 2 != 0)
+		f->philos[f->n_philos - 1].condition = SHARE;
 	x = -1;
 	while (++x < f->n_philos)
 	{
 		f->id_fork = x;
 		f->philos[x].id = x + 1;
-		f->philos[x].can_print = 1;
+		f->philos[x].condition = 1;
 		pthread_create(&f->philos[x].thread_id, NULL, mythreadfun, f);
 		usleep(1);
 	}
