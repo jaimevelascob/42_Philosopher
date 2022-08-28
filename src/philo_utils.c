@@ -1,14 +1,13 @@
 #include "../inc/philo.h"
 
-unsigned long	get_time()
+unsigned long	get_time(void)
 {
-
-	unsigned long time;
+	unsigned long	time;
 	struct timeval	t_now;
 
 	gettimeofday(&t_now, NULL);
 	time = t_now.tv_sec * 1000 + t_now.tv_usec / 1000;
-	return time;
+	return (time);
 }
 
 void	sleeping(t_fork *fork, unsigned long time, int id)
@@ -20,8 +19,8 @@ void	sleeping(t_fork *fork, unsigned long time, int id)
 	while (1)
 	{
 		second = get_time();
-		if (get_time() - now >= time)
-			break;
+		if (get_time() - now >= time || fork->died)
+			break ;
 		usleep(50);
 	}
 }
@@ -48,54 +47,4 @@ long	ft_atoi(const char *str)
 			return (0);
 	}
 	return (res * oper);
-}
-
-int	ft_check_arg(t_fork *fork, char **argv, int argc)
-{
-	if (argc < 5)
-		return (0);
-	fork->n_philos = ft_atoi(argv[1]);
-	fork->time_die = ft_atoi(argv[2]);
-	fork->time_eat = ft_atoi(argv[3]);
-	fork->time_sleep = ft_atoi(argv[4]);
-	if (argc > 5)
-		fork->n_eat = ft_atoi(argv[5]);
-	if (fork->n_philos == 0
-		|| fork->time_die == 0
-		|| fork->time_eat == 0
-		|| fork->time_sleep == 0
-		|| fork->n_eat == 0)
-		return (0);
-	fork->died = 0;
-	return (1);
-}
-
-void	init_struct(t_fork *f)
-{
-	int	x;
-
-	x = -1;
-	f->philos = (t_philo *)malloc(sizeof(*(f->philos)) * f->n_philos);
-	pthread_mutex_init(&f->is_dead, NULL);
-	while (++x < f->n_philos)
-	{
-		pthread_mutex_init(&f->philos[x].mutex, NULL);
-		f->philos[x].t_start = get_time();
-		f->philos[x].last_eat = f->philos[x].t_start;
-		f->philos[x].t_now = 0;
-		f->philos[x].have_eaten = 0;
-		f->philos[x].last_eat = f->philos[x].t_start;
-		f->philos[x].have_fork = '0';
-	}
-	if (f->n_philos % 2 != 0)
-		f->philos[f->n_philos - 1].condition = SHARE;
-	x = -1;
-	while (++x < f->n_philos)
-	{
-		f->id_fork = x;
-		f->philos[x].id = x + 1;
-		f->philos[x].condition = 1;
-		pthread_create(&f->philos[x].thread_id, NULL, mythreadfun, f);
-		usleep(1);
-	}
 }

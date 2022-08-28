@@ -3,6 +3,9 @@
 # define TAKE 1
 # define SHARE 2
 # define EAT 3
+# define SLEEP 4
+# define THINK 5
+# define REPEAT 100
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h> 
@@ -17,6 +20,7 @@ typedef struct philo
 	int				id;
 	char			have_fork;
 	int				condition;
+	int				action;
 	unsigned long	last_eat;
 	unsigned long	t_now;
 	unsigned long	t_time;
@@ -39,18 +43,29 @@ typedef struct s_fork
 	long			time_eat;
 	long			time_sleep;
 	pthread_mutex_t	print;
+	pthread_mutex_t	mutex;
 	pthread_mutex_t	is_dead;
 }	t_fork;
 
-unsigned long		get_time();
-void	join_and_destroy(t_fork *f, int x, char trigger_dead, unsigned long time);
-void	init_struct(t_fork *f);
-long	ft_atoi(const char *str);
-int		ft_check_arg(t_fork *fork, char **argv, int argc);
-int		print(t_fork *f, char *act, int id);
-int		change_values(t_fork *fork, int h, int z);
-void	*mythreadfun(void *vargp);
-void	watch_exit(t_fork *f);
-int		check_dead(t_fork *f);
-
+/* philo.c */
+int					print(t_fork *f, char *act, int id);
+void				*mythreadfun(void *vargp);
+/* philo_utils.c */
+void				sleeping(t_fork *fork, unsigned long time, int id);
+unsigned long		get_time(void);
+long				ft_atoi(const char *str);
+/* philo_init.c */
+int					ft_check_arg(t_fork *fork, char **argv, int argc);
+void				init_struct(t_fork *f);
+void				init_philo(int id, t_fork *f);
+/* philo_exit.c */
+void				watch_exit(t_fork *f);
+void				join_and_destroy(t_fork *f, int x, char trigger_dead,
+						unsigned long time);
+int					check_dead(t_fork *f);
+/* philo_actions.c */
+void				eat(t_fork *fork, int h, int z);
+void				take(t_fork *fork, int id_fork, int id_print);
+void				kip(t_fork *fork, int id);
+void				think(t_fork *fork, int id);
 #endif
