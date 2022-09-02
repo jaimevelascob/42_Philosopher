@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:42:25 by jvelasco          #+#    #+#             */
-/*   Updated: 2022/08/28 16:42:27 by jvelasco         ###   ########.fr       */
+/*   Updated: 2022/09/02 16:29:41 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct philo
 	unsigned long	t_time;
 	unsigned long	t_start;
 	int				have_eaten;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	f_left;
 	struct timeval	start;
 	struct timeval	now;
 	struct t_fork	*fork;
@@ -50,6 +50,7 @@ typedef struct s_fork
 	int				id_fork;
 	long			n_philos;
 	long			n_eat;
+	long			n_eaten;
 	long			time_die;
 	int				died;
 	long			time_eat;

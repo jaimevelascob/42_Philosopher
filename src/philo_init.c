@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:41:48 by jvelasco          #+#    #+#             */
-/*   Updated: 2022/08/28 16:41:50 by jvelasco         ###   ########.fr       */
+/*   Updated: 2022/09/02 16:31:48 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ int	ft_check_arg(t_fork *fork, char **argv, int argc)
 	fork->time_die = ft_atoi(argv[2]);
 	fork->time_eat = ft_atoi(argv[3]);
 	fork->time_sleep = ft_atoi(argv[4]);
+	fork->n_eaten = 0;
+	printf("%ld %ld %ld %ld %ld", fork->n_philos, fork->time_die, fork->time_eat, fork->time_sleep, fork->n_eat);
 	if (argc > 5)
 		fork->n_eat = ft_atoi(argv[5]);
-	if (fork->n_philos == 0
+	else if (fork->n_philos == 0
 		|| fork->time_die == 0
 		|| fork->time_eat == 0
 		|| fork->time_sleep == 0
@@ -34,7 +36,7 @@ int	ft_check_arg(t_fork *fork, char **argv, int argc)
 
 void	init_philo(int id, t_fork *f)
 {
-	pthread_mutex_init(&f->philos[id].mutex, NULL);
+	pthread_mutex_init(&f->philos[id].f_left, NULL);
 	f->philos[id].t_start = get_time();
 	f->philos[id].last_eat = f->philos[id].t_start;
 	f->philos[id].t_now = 0;
@@ -51,11 +53,11 @@ void	init_struct(t_fork *f)
 	id = -1;
 	f->philos = (t_philo *)malloc(sizeof(*(f->philos)) * f->n_philos);
 	pthread_mutex_init(&f->is_dead, NULL);
-	pthread_mutex_init(&f->mutex, NULL);
+	/* pthread_mutex_init(&f->mutex, NULL); */
 	while (++id < f->n_philos)
 		init_philo(id, f);
-	if (f->n_philos % 2 != 0)
-		f->philos[f->n_philos - 1].condition = SHARE;
+	/* if (f->n_philos % 2 != 0) */
+	/* 	f->philos[f->n_philos - 1].condition = SHARE; */
 	id = -1;
 	while (++id < f->n_philos)
 	{

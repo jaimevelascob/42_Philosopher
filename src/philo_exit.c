@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:41:41 by jvelasco          #+#    #+#             */
-/*   Updated: 2022/08/28 16:41:43 by jvelasco         ###   ########.fr       */
+/*   Updated: 2022/09/02 16:32:54 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	watch_exit(t_fork *f)
 	{
 		t_now = get_time();
 		t_time = t_now - f->philos[x].t_start;
-		if (f->philos[x].have_eaten == f->n_eat)
+	 	if (f->n_eaten == f->n_eat * f->n_philos)
 			join_and_destroy(f, x, '0', t_time);
 		if ((t_now - f->philos[x].last_eat) >= f->time_die)
 			join_and_destroy(f, x, '1', t_time);
@@ -46,8 +46,9 @@ void	join_and_destroy(t_fork *f, int x, char trigger_dead,
 	}
 	while (id < f->n_philos)
 	{
+		pthread_mutex_unlock(&f->philos[id].f_left);
 		pthread_join(f->philos[id].thread_id, NULL);
-		pthread_mutex_destroy(&f->philos[id].mutex);
+		pthread_mutex_destroy(&f->philos[id].f_left);
 		id++;
 	}
 }

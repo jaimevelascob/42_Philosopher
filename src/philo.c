@@ -6,11 +6,15 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:41:58 by jvelasco          #+#    #+#             */
-/*   Updated: 2022/08/28 16:42:00 by jvelasco         ###   ########.fr       */
+/*   Updated: 2022/09/02 16:28:10 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+
+// poner variable global de numero de comidas y bloquearla sumar cada vez q se come
+// mirar el unlock cuando es 1
+// el numero de prints no es estable
 
 int	print(t_fork *f, char *act, int id)
 {
@@ -34,7 +38,7 @@ void	*mythreadfun(void *vargp)
 	fork = (t_fork *)vargp;
 	h = fork->id_fork;
 	if (h % 2 != 0)
-		fork->philos[h].condition = SHARE;
+		usleep(50);
 	z = h + 1;
 	while (!check_dead(fork))
 	{
