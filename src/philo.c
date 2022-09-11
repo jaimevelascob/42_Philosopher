@@ -12,45 +12,39 @@
 
 #include "../inc/philo.h"
 
-// poner variable global de numero de comidas y bloquearla sumar cada vez q se come
-// mirar el unlock cuando es 1
-// el numero de prints no es estable
-
 int	print(t_fork *f, char *act, int id)
 {
-	pthread_mutex_lock(&f->is_dead);
-	pthread_mutex_lock(&f->print);
 	f->philos[id].t_now = get_time();
 	f->philos[id].t_time = f->philos[id].t_now - f->philos[id].t_start;
-	if (!f->died)
+	pthread_mutex_lock(&f->print);
+	if (!check_dead(f, id))
 		printf("%ldms %d %s\n", f->philos[id].t_time, f->philos[id].id, act);
 	pthread_mutex_unlock(&f->print);
-	pthread_mutex_unlock(&f->is_dead);
 	return (0);
 }
 
 void	*mythreadfun(void *vargp)
 {
 	t_fork	*fork;
-	int		h;
-	int		z;
+	int		id;
+	int		id_next;
 
 	fork = (t_fork *)vargp;
-	h = fork->id_fork;
-	if (h % 2 != 0)
-		usleep(50);
-	z = h + 1;
-	while (!check_dead(fork))
+	id = fork->id_fork;
+	if (id % 2 != 0)
+		usleep(100);
+	id_next = id + 1;
+	while (!check_dead(fork, id))
 	{
-		if (fork->philos[h].condition == TAKE)
-			take(fork, h, z);
-		if (fork->philos[h].action == EAT)
-			eat(fork, h, z);
-		if (fork->philos[h].action == SLEEP)
-			kip(fork, h);
-		if (fork->philos[h].action == THINK)
-			think(fork, h);
-		usleep(REPEAT);
+		if (fork->philos[id].condition == TAKE)
+			take(fork, id, id_next);
+		if (fork->philos[id].action == EAT)
+			eat(fork, id, id_next);
+		if (fork->philos[id].action == SLEEP)
+			kip(fork, id);
+		if (fork->philos[id].action == THINK)
+			think(fork, id);
+		sleeping(fork, REPEAT, id);
 	}
 	return (0);
 }
@@ -59,7 +53,6 @@ int	main(int argc, char **argv)
 {
 	t_fork	fork;
 
-	pthread_mutex_init(&fork.print, NULL);
 	if (ft_check_arg(&fork, argv, argc) == 0)
 		return (0);
 	init_struct(&fork);

@@ -21,7 +21,6 @@ int	ft_check_arg(t_fork *fork, char **argv, int argc)
 	fork->time_eat = ft_atoi(argv[3]);
 	fork->time_sleep = ft_atoi(argv[4]);
 	fork->n_eaten = 0;
-	printf("%ld %ld %ld %ld %ld", fork->n_philos, fork->time_die, fork->time_eat, fork->time_sleep, fork->n_eat);
 	if (argc > 5)
 		fork->n_eat = ft_atoi(argv[5]);
 	else if (fork->n_philos == 0
@@ -43,7 +42,8 @@ void	init_philo(int id, t_fork *f)
 	f->philos[id].have_eaten = 0;
 	f->philos[id].action = 0;
 	f->philos[id].last_eat = f->philos[id].t_start;
-	f->philos[id].have_fork = '0';
+	f->philos[id].n_fork = 0;
+	f->philos[id].is_avaliable = '1';
 }
 
 void	init_struct(t_fork *f)
@@ -52,12 +52,10 @@ void	init_struct(t_fork *f)
 
 	id = -1;
 	f->philos = (t_philo *)malloc(sizeof(*(f->philos)) * f->n_philos);
+	pthread_mutex_init(&f->print, NULL);
 	pthread_mutex_init(&f->is_dead, NULL);
-	/* pthread_mutex_init(&f->mutex, NULL); */
 	while (++id < f->n_philos)
 		init_philo(id, f);
-	/* if (f->n_philos % 2 != 0) */
-	/* 	f->philos[f->n_philos - 1].condition = SHARE; */
 	id = -1;
 	while (++id < f->n_philos)
 	{

@@ -17,7 +17,7 @@
 # define EAT 3
 # define SLEEP 4
 # define THINK 5
-# define REPEAT 100
+# define REPEAT 50
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h> 
@@ -25,12 +25,12 @@
 # include <sys/time.h>
 # include <time.h>
 
-struct	s_fork;
 typedef struct philo
 {
 	pthread_t		thread_id;
 	int				id;
-	char			have_fork;
+	int				n_fork;
+	char			is_avaliable;
 	int				condition;
 	int				action;
 	unsigned long	last_eat;
@@ -41,7 +41,6 @@ typedef struct philo
 	pthread_mutex_t	f_left;
 	struct timeval	start;
 	struct timeval	now;
-	struct t_fork	*fork;
 }	t_philo;
 
 typedef struct s_fork
@@ -56,7 +55,6 @@ typedef struct s_fork
 	long			time_eat;
 	long			time_sleep;
 	pthread_mutex_t	print;
-	pthread_mutex_t	mutex;
 	pthread_mutex_t	is_dead;
 }	t_fork;
 
@@ -75,7 +73,7 @@ void				init_philo(int id, t_fork *f);
 void				watch_exit(t_fork *f);
 void				join_and_destroy(t_fork *f, int x, char trigger_dead,
 						unsigned long time);
-int					check_dead(t_fork *f);
+int					check_dead(t_fork *f, int h);
 /* philo_actions.c */
 void				eat(t_fork *fork, int h, int z);
 void				take(t_fork *fork, int id_fork, int id_print);
