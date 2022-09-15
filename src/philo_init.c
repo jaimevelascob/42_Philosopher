@@ -23,12 +23,15 @@ int	ft_check_arg(t_fork *fork, char **argv, int argc)
 	fork->n_eaten = 0;
 	if (argc > 5)
 		fork->n_eat = ft_atoi(argv[5]);
-	else if (fork->n_philos == 0
+	else
+		fork->n_eat = -1;
+	if (fork->n_philos == 0
 		|| fork->time_die == 0
 		|| fork->time_eat == 0
 		|| fork->time_sleep == 0
 		|| fork->n_eat == 0)
 		return (0);
+	printf("%d\n", argc);
 	fork->died = 0;
 	return (1);
 }
