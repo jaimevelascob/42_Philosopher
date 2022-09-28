@@ -12,22 +12,33 @@
 
 #include "../inc/philo.h"
 
-void	watch_exit(t_fork *f)
+void	*watch_exit(void *vargp)
 {
+	t_fork *f;
 	static int		x;
 	unsigned long	t_now;
 	unsigned long	t_time;
+	unsigned long	l_eat;
+	long			n_eat;
+
+	f = (t_fork *)vargp;
 
 	while (1)
 	{
+		pthread_mutex_lock(&f->l_eat);
+		l_eat = f->philos[x].last_eat;
+		pthread_mutex_unlock(&f->l_eat);
+		pthread_mutex_lock(&f->d_eat);
+		n_eat = f->n_eaten;
+		pthread_mutex_unlock(&f->d_eat);
 		t_now = get_time();
 		t_time = t_now - f->philos[x].t_start;
-		if (f->n_eaten == f->n_eat * f->n_philos)
+		if (n_eat == f->n_eat * f->n_philos)
 		{
 			join_and_destroy(f, x, '0', t_time);
 			break ;
 		}
-		if ((t_now - f->philos[x].last_eat) >= f->time_die)
+		if ((t_now - l_eat) >= f->time_die)
 		{
 			join_and_destroy(f, x, '1', t_time);
 			break ;
@@ -47,17 +58,20 @@ void	join_and_destroy(t_fork *f, int x, char trigger_dead,
 	if (trigger_dead == '1')
 	{
 		pthread_mutex_lock(&f->print);
-		printf("%ldms %d %s\n", time, x + 1, "is dead");
+		printf("\033[1;31m%ldms %d %s\n", time, x + 1, "is dead");
 		pthread_mutex_unlock(&f->print);
 	}
-	while (id < f->n_philos)
-	{
-		pthread_join(f->philos[id].thread_id, NULL);
-		id++;
-	}
-	pthread_mutex_destroy(&f->print);
-	pthread_mutex_destroy(&f->is_dead);
-	free(f->philos);
+	/* while (id < f->n_philos) */
+	/* { */
+		/* printf("AAAs %d\n", id); */
+		/* pthread_join(f->philos[id].thread_id, NULL); */
+		/* id++; */
+	/* } */
+	/* pthread_mutex_destroy(&f->d_eat); */
+	/* pthread_mutex_destroy(&f->l_eat); */
+	/* pthread_mutex_destroy(&f->print); */
+	/* pthread_mutex_destroy(&f->is_dead); */
+	/* free(f->philos); */
 }
 
 int	check_dead(t_fork *f, int h)

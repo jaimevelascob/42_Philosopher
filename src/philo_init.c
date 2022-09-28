@@ -31,7 +31,6 @@ int	ft_check_arg(t_fork *fork, char **argv, int argc)
 		|| fork->time_sleep == 0
 		|| fork->n_eat == 0)
 		return (0);
-	printf("%d\n", argc);
 	fork->died = 0;
 	return (1);
 }
@@ -56,9 +55,12 @@ void	init_struct(t_fork *f)
 	id = -1;
 	f->philos = (t_philo *)malloc(sizeof(*(f->philos)) * f->n_philos);
 	pthread_mutex_init(&f->print, NULL);
+	pthread_mutex_init(&f->l_eat, NULL);
+	pthread_mutex_init(&f->d_eat, NULL);
 	pthread_mutex_init(&f->is_dead, NULL);
 	while (++id < f->n_philos)
 		init_philo(id, f);
+	pthread_create(&f->t_dead, NULL, watch_exit, f);
 	id = -1;
 	while (++id < f->n_philos)
 	{
@@ -68,4 +70,15 @@ void	init_struct(t_fork *f)
 		pthread_create(&f->philos[id].thread_id, NULL, mythreadfun, f);
 		usleep(1);
 	}
+	id = 0;
+	while (id < f->n_philos)
+	{
+		pthread_join(f->philos[id].thread_id, NULL);
+		id++;
+	}
+	pthread_mutex_destroy(&f->d_eat);
+	pthread_mutex_destroy(&f->l_eat);
+	pthread_mutex_destroy(&f->print);
+	pthread_mutex_destroy(&f->is_dead);
+	free(f->philos);
 }

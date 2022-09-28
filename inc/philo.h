@@ -17,7 +17,7 @@
 # define EAT 3
 # define SLEEP 4
 # define THINK 5
-# define REPEAT 50
+# define REPEAT 0
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h> 
@@ -54,7 +54,10 @@ typedef struct s_fork
 	int				died;
 	long			time_eat;
 	long			time_sleep;
+	pthread_t		t_dead;
 	pthread_mutex_t	print;
+	pthread_mutex_t	l_eat;
+	pthread_mutex_t	d_eat;
 	pthread_mutex_t	is_dead;
 }	t_fork;
 
@@ -70,7 +73,7 @@ int					ft_check_arg(t_fork *fork, char **argv, int argc);
 void				init_struct(t_fork *f);
 void				init_philo(int id, t_fork *f);
 /* philo_exit.c */
-void				watch_exit(t_fork *f);
+void				*watch_exit(void *vargp);
 void				join_and_destroy(t_fork *f, int x, char trigger_dead,
 						unsigned long time);
 int					check_dead(t_fork *f, int h);
