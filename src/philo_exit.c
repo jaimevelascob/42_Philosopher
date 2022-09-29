@@ -32,13 +32,13 @@ void	*watch_exit(void *vargp)
 		n_eat = f->n_eaten;
 		pthread_mutex_unlock(&f->d_eat);
 		t_now = get_time();
-		t_time = t_now - f->philos[x].t_start;
+		t_time = t_now - l_eat;
 		if (n_eat == f->n_eat * f->n_philos)
 		{
 			join_and_destroy(f, x, '0', t_time);
 			break ;
 		}
-		if ((t_now - l_eat) >= f->time_die)
+		if (t_time >= f->time_die)
 		{
 			join_and_destroy(f, x, '1', t_time);
 			break ;
@@ -80,8 +80,8 @@ int	check_dead(t_fork *f, int h)
 
 	pthread_mutex_lock(&f->is_dead);
 	x = f->died;
-	if (f->n_eaten == f->n_eat * f->n_philos)
-		x = 1;
+	/* if (f->n_eaten == f->n_eat * f->n_philos) */
+	/* 	x = 1; */
 	pthread_mutex_unlock(&f->is_dead);
 	return (x);
 }

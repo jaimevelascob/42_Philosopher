@@ -21,7 +21,7 @@ void	eat(t_fork *f, int id, int id_next)
 	sleeping(f, f->time_eat, id);
 	f->philos[id].have_eaten++;
 	pthread_mutex_lock(&f->l_eat);
-	f->philos[id].last_eat = f->philos[id].t_now;
+	f->philos[id].last_eat = get_time();
 	pthread_mutex_unlock(&f->l_eat);
 	f->philos[id].n_fork = 0;
 	f->philos[id].is_avaliable = '1';
