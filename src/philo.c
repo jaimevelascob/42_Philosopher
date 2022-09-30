@@ -56,6 +56,5 @@ int	main(int argc, char **argv)
 	if (ft_check_arg(&fork, argv, argc) == 0)
 		return (0);
 	init_struct(&fork);
-	/* watch_exit(&fork); */
 	return (0);
 }

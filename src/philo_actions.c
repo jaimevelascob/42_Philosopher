@@ -41,7 +41,8 @@ void	take(t_fork *fork, int id_fork, int id_print)
 	if (fork->n_philos != 1)
 	{
 		pthread_mutex_lock(&fork->philos[id_print % fork->n_philos].f_left);
-		if (fork->philos[id_print % fork->n_philos].is_avaliable == '1' && fork->philos[id_fork].n_fork)
+		if (fork->philos[id_print % fork->n_philos].is_avaliable == '1'
+			&& fork->philos[id_fork].n_fork)
 		{
 			fork->philos[id_fork].n_fork++;
 			print(fork, "has taken a fork", id_fork);

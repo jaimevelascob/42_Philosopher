@@ -54,6 +54,11 @@ typedef struct s_fork
 	int				died;
 	long			time_eat;
 	long			time_sleep;
+	unsigned long	t_now;
+	unsigned long	t_time;
+	unsigned long	last_eat;
+	long			n_p_eat;
+	int				id;
 	pthread_t		t_dead;
 	pthread_mutex_t	print;
 	pthread_mutex_t	l_eat;
@@ -72,10 +77,11 @@ long				ft_atoi(const char *str);
 int					ft_check_arg(t_fork *fork, char **argv, int argc);
 void				init_struct(t_fork *f);
 void				init_philo(int id, t_fork *f);
+void				detroy(t_fork *f);
+void				init_mutex(t_fork *f);
 /* philo_exit.c */
 void				*watch_exit(void *vargp);
-void				join_and_destroy(t_fork *f, int x, char trigger_dead,
-						unsigned long time);
+void				join_and_destroy(t_fork *f, int x, char trigger_dead);
 int					check_dead(t_fork *f, int h);
 /* philo_actions.c */
 void				eat(t_fork *fork, int h, int z);
