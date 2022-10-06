@@ -1,6 +1,6 @@
 CC = gcc -lpthread
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -0fast
 # LEAKS = -fsanitize=thread 
 LEAKS = -fsanitize=address -g3 
 SRC = src/philo.c src/philo_utils.c src/philo_actions.c src/philo_exit.c src/philo_init.c

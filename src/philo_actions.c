@@ -14,19 +14,17 @@
 
 void	eat(t_fork *f, int id, int id_next)
 {
-	print(f, "is eating", id);
+	print(f, PHILO_EATS, id);
 	pthread_mutex_lock(&f->d_eat);
 	f->n_eaten++;
 	pthread_mutex_unlock(&f->d_eat);
 	sleeping(f, f->time_eat, id);
-	f->philos[id].have_eaten++;
 	pthread_mutex_lock(&f->l_eat);
 	f->philos[id].last_eat = get_time();
 	pthread_mutex_unlock(&f->l_eat);
-	f->philos[id].n_fork = 0;
-	f->philos[id].is_avaliable = '1';
 	f->philos[id].action = 4;
 	f->philos[id_next % f->n_philos].is_avaliable = '1';
+	f->philos[id].is_avaliable = '1';
 }
 
 void	take(t_fork *fork, int id_fork, int id_print)
@@ -34,22 +32,19 @@ void	take(t_fork *fork, int id_fork, int id_print)
 	pthread_mutex_lock(&fork->philos[id_fork].f_left);
 	if (fork->philos[id_fork].is_avaliable == '1')
 	{
-		fork->philos[id_fork].n_fork++;
-		print(fork, "has taken a fork", id_fork);
+		print(fork, LEFT_FORK_TAKEN, id_fork);
 		fork->philos[id_fork].is_avaliable = '0';
 	}
 	if (fork->n_philos != 1)
 	{
 		pthread_mutex_lock(&fork->philos[id_print % fork->n_philos].f_left);
 		if (fork->philos[id_print % fork->n_philos].is_avaliable == '1'
-			&& fork->philos[id_fork].n_fork)
+			&& fork->philos[id_fork].is_avaliable == '0')
 		{
-			fork->philos[id_fork].n_fork++;
-			print(fork, "has taken a fork", id_fork);
+			print(fork, RIGHT_FORK_TAKEN, id_fork);
 			fork->philos[id_print % fork->n_philos].is_avaliable = '0';
+			eat(fork, id_fork, id_print);
 		}
-		if (fork->philos[id_fork].n_fork == 2)
-			fork->philos[id_fork].action = EAT;
 		pthread_mutex_unlock(&fork->philos[id_print % fork->n_philos].f_left);
 	}
 	pthread_mutex_unlock(&fork->philos[id_fork].f_left);
@@ -57,14 +52,16 @@ void	take(t_fork *fork, int id_fork, int id_print)
 
 void	kip(t_fork *fork, int id)
 {
-	print(fork, "is sleaping", id);
+	fork->philos[id].t_now += 100;
+	print(fork, PHILO_SLEEPS, id);
 	sleeping(fork, fork->time_sleep, id);
 	fork->philos[id].action = THINK;
 }
 
 void	think(t_fork *fork, int id)
 {
-	print(fork, "is thinking", id);
+	fork->philos[id].t_now += 100;
+	print(fork, PHILO_THINKS, id);
 	fork->philos[id].action = 0;
 	fork->philos[id].condition = 1;
 }

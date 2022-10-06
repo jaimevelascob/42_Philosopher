@@ -18,6 +18,18 @@
 # define SLEEP 4
 # define THINK 5
 # define REPEAT 0
+# define LEFT_FORK_TAKEN  "\033[1;32m \
+[%ldms] \tphilo %d has taken left fork\n\033[0;39m"
+# define RIGHT_FORK_TAKEN  "\033[1;32m \
+[%ldms] \tphilo %d has taken right fork\n\033[0;39m"
+# define PHILO_EATS  "\033[0;33m \
+[%ldms] \tphilo %d is eating \n\033[0;39m"
+# define PHILO_SLEEPS  "\033[0;34m \
+[%ldms] \tphilo %d is sleaping\n\033[0;39m"
+# define PHILO_THINKS  "\033[0;36m \
+[%ldms] \tphilo %d is thinking\n\033[0;39m"
+# define PHILO_DIED  "\033[0;31m \
+[%ldms] \tphilo %d is dead\n\033[0;39m"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h> 

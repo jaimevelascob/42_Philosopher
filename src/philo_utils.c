@@ -25,12 +25,10 @@ unsigned long	get_time(void)
 void	sleeping(t_fork *fork, unsigned long time, int id)
 {
 	unsigned long	now;
-	unsigned long	second;
 
 	now = get_time();
 	while (1)
 	{
-		second = get_time();
 		if (get_time() - now >= time || fork->died)
 			break ;
 		usleep(50);

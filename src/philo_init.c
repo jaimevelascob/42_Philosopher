@@ -39,7 +39,6 @@ void	init_philo(int id, t_fork *f)
 {
 	pthread_mutex_init(&f->philos[id].f_left, NULL);
 	f->philos[id].t_start = get_time();
-	f->philos[id].last_eat = f->philos[id].t_start;
 	f->philos[id].t_now = 0;
 	f->philos[id].have_eaten = 0;
 	f->philos[id].action = 0;

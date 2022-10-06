@@ -51,7 +51,7 @@ void	join_and_destroy(t_fork *f, int x, char trigger_dead)
 	if (trigger_dead == '1')
 	{
 		pthread_mutex_lock(&f->print);
-		printf("\033[1;31m%ldms %d %s\n", f->t_time, x + 1, "is dead");
+		printf(PHILO_DIED, f->t_time, x + 1);
 		pthread_mutex_unlock(&f->print);
 	}
 }
