@@ -52,7 +52,7 @@ void	take(t_fork *fork, int id_fork, int id_print)
 
 void	kip(t_fork *fork, int id)
 {
-	fork->philos[id].t_now += 100;
+	fork->philos[id].t_now += fork->time_eat;
 	print(fork, PHILO_SLEEPS, id);
 	sleeping(fork, fork->time_sleep, id);
 	fork->philos[id].action = THINK;
@@ -60,7 +60,7 @@ void	kip(t_fork *fork, int id)
 
 void	think(t_fork *fork, int id)
 {
-	fork->philos[id].t_now += 100;
+	fork->philos[id].t_now += fork->time_sleep;
 	print(fork, PHILO_THINKS, id);
 	fork->philos[id].action = 0;
 	fork->philos[id].condition = 1;

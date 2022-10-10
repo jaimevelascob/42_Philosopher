@@ -25,8 +25,7 @@ void	*watch_exit(void *vargp)
 		pthread_mutex_lock(&f->d_eat);
 		f->n_p_eat = f->n_eaten;
 		pthread_mutex_unlock(&f->d_eat);
-		f->t_now = get_time();
-		f->t_time = f->t_now - f->last_eat;
+		f->t_time = get_time() - f->last_eat;
 		if (f->n_p_eat == f->n_eat * f->n_philos)
 		{
 			join_and_destroy(f, f->id, '0');
