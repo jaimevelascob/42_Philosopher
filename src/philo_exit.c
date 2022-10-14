@@ -14,24 +14,23 @@
 
 void	*watch_exit(void *vargp)
 {
-	t_fork	*f;
+	s_fork	*f;
+	unsigned long	last_eat;
+	long			n_p_eat;
+	unsigned long	t_time;
 
-	f = (t_fork *)vargp;
+	f = (s_fork *)vargp;
 	while (1)
 	{
-		pthread_mutex_lock(&f->l_eat);
-		f->last_eat = f->philos[f->id].last_eat;
-		pthread_mutex_unlock(&f->l_eat);
-		pthread_mutex_lock(&f->d_eat);
-		f->n_p_eat = f->n_eaten;
-		pthread_mutex_unlock(&f->d_eat);
-		f->t_time = get_time() - f->last_eat;
-		if (f->n_p_eat == f->n_eat * f->n_philos)
+		last_eat = f->philos[f->id].last_eat;
+		n_p_eat = f->n_eaten;
+		t_time = get_time() - last_eat;
+		if (n_p_eat == f->n_eat * f->n_philos)
 		{
 			join_and_destroy(f, f->id, '0');
 			break ;
 		}
-		if (f->t_time >= f->time_die)
+		if (t_time >= f->time_die)
 		{
 			join_and_destroy(f, f->id, '1');
 			break ;
@@ -40,7 +39,7 @@ void	*watch_exit(void *vargp)
 	}
 }
 
-void	join_and_destroy(t_fork *f, int x, char trigger_dead)
+void	join_and_destroy(s_fork *f, int x, char trigger_dead)
 {
 	static int	id;
 
@@ -50,12 +49,12 @@ void	join_and_destroy(t_fork *f, int x, char trigger_dead)
 	if (trigger_dead == '1')
 	{
 		pthread_mutex_lock(&f->print);
-		printf(PHILO_DIED, f->t_time, x + 1);
+		printf(PHILO_DIED, get_time() - f->philos[x].t_start, x + 1);
 		pthread_mutex_unlock(&f->print);
 	}
 }
 
-int	check_dead(t_fork *f, int h)
+int	check_dead(s_fork *f, int h)
 {
 	int	x;
 

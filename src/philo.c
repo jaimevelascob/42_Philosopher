@@ -12,47 +12,44 @@
 
 #include "../inc/philo.h"
 
-int	print(t_fork *f, char *act, int id)
+int	print(s_philo f, char *act, int id)
 {
-	f->philos[id].t_time = f->philos[id].t_now - f->philos[id].t_start;
-	pthread_mutex_lock(&f->print);
-	if (!check_dead(f, id))
-		printf(act, f->philos[id].t_time, f->philos[id].id, act);
-	pthread_mutex_unlock(&f->print);
+	unsigned long t_time;
+
+	t_time = f.t_now - f.t_start;
+	pthread_mutex_lock(&f.fork->print);
+	if (!f.fork->died)
+		printf(act, t_time, id + 1, act);
+	pthread_mutex_unlock(&f.fork->print);
 	return (0);
 }
 
 void	*mythreadfun(void *vargp)
 {
-	t_fork	*fork;
+	s_philo	*p;
+	int	time_delay;
 	int		id;
-	int		id_next;
-	int		time_delay;
+	int		n_id;
 
 	time_delay = 0;
-	fork = (t_fork *)vargp;
-	id = fork->id_fork;
-	fork->philos[id].t_start = get_time();
-	fork->philos[id].last_eat = fork->philos[id].t_start;
-	if (id % 2 != 0)
-		time_delay = fork->time_eat;
-	fork->philos[id].t_now = fork->philos[id].t_start + time_delay;
-	id_next = id + 1;
-	while (!check_dead(fork, id))
+	p = vargp;
+	p->t_start = get_time();
+	p->last_eat = p->t_start;
+	if (p->id % 2 != 0)
+		time_delay = 100;
+	p->t_now = p->t_start + time_delay;
+	while (!p->fork->died)
 	{
-		if (fork->philos[id].condition == TAKE)
-			take(fork, id, id_next);
-		if (fork->philos[id].action == SLEEP)
-			kip(fork, id);
-		if (fork->philos[id].action == THINK)
-			think(fork, id);
+		take(p->fork, p->id, p->n_id);
+		kip(p, p->fork[0].time_eat);
+		think(p,p->fork[0].time_sleep);
 	}
 	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	t_fork	fork;
+	s_fork	fork;
 
 	if (ft_check_arg(&fork, argv, argc) == 0)
 		return (0);

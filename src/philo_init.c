@@ -12,7 +12,7 @@
 
 #include "../inc/philo.h"
 
-int	ft_check_arg(t_fork *fork, char **argv, int argc)
+int	ft_check_arg(s_fork *fork, char **argv, int argc)
 {
 	if (argc < 5)
 		return (0);
@@ -35,29 +35,32 @@ int	ft_check_arg(t_fork *fork, char **argv, int argc)
 	return (1);
 }
 
-void	init_philo(int id, t_fork *f)
+void	init_philo(int id, s_fork *f)
 {
-	pthread_mutex_init(&f->philos[id].f_left, NULL);
-	f->philos[id].t_start = get_time();
+	pthread_mutex_init(&f->fork[id], NULL);
 	f->philos[id].t_now = 0;
-	f->philos[id].have_eaten = 0;
-	f->philos[id].action = 0;
-	f->philos[id].last_eat = f->philos[id].t_start;
-	f->philos[id].n_fork = 0;
-	f->philos[id].is_avaliable = '1';
+	f->philos[id].id = id;
+	f->philos[id].n_id = id + 1 % f->n_philos;
+	f->philos[id].fork = (struct s_fork *)f;
 }
 
-void	init_mutex(t_fork *f)
+void	init_mutex(s_fork *f)
 {
-	f->philos = (t_philo *)malloc(sizeof(*(f->philos)) * f->n_philos);
+	static int i;
+
+	f->philos = (s_philo *)malloc(sizeof(*(f->philos)) * f->n_philos);
 	pthread_mutex_init(&f->print, NULL);
+	f->fork = malloc(sizeof(pthread_mutex_t) * f->n_philos);
+	f->is_avaliable = malloc(sizeof(char) * f->n_philos);
 	pthread_mutex_init(&f->l_eat, NULL);
 	pthread_mutex_init(&f->d_eat, NULL);
 	pthread_mutex_init(&f->is_dead, NULL);
 	f->id = 0;
+	while(i < f->n_philos)
+		f->is_avaliable[i++] = '1';
 }
 
-void	detroy(t_fork *f)
+void	detroy(s_fork *f)
 {
 	static int	id;
 
@@ -68,26 +71,27 @@ void	detroy(t_fork *f)
 	}
 	pthread_mutex_destroy(&f->d_eat);
 	pthread_mutex_destroy(&f->l_eat);
-	pthread_mutex_destroy(&f->print);
+	/* pthread_mutex_destroy(&f->print); */
 	pthread_mutex_destroy(&f->is_dead);
 	free(f->philos);
 }
 
-void	init_struct(t_fork *f)
+void	init_struct(s_fork *f)
 {
 	static int	id = -1;
+	static int	n_id;
 
 	init_mutex(f);
 	while (++id < f->n_philos)
 		init_philo(id, f);
-	pthread_create(&f->t_dead, NULL, watch_exit, f);
+	/* pthread_create(&f->t_dead, NULL, watch_exit, f); */
 	id = -1;
 	while (++id < f->n_philos)
 	{
-		f->id_fork = id;
-		f->philos[id].id = id + 1;
-		f->philos[id].condition = 1;
-		pthread_create(&f->philos[id].thread_id, NULL, mythreadfun, f);
+		f->philos[id].id = id;
+		n_id = f->philos[id].id + 1;
+		f->philos[id].n_id = n_id % f->n_philos;
+		pthread_create(&f->philos[id].thread_id, NULL, mythreadfun, &f->philos[id]);
 		usleep(1);
 	}
 	detroy(f);

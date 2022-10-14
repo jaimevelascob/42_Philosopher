@@ -17,7 +17,7 @@
 # define EAT 3
 # define SLEEP 4
 # define THINK 5
-# define REPEAT 0
+# define REPEAT 50
 # define LEFT_FORK_TAKEN  "\033[1;32m \
 [%ldms] \tphilo %d has taken left fork\n\033[0;39m"
 # define RIGHT_FORK_TAKEN  "\033[1;32m \
@@ -36,68 +36,60 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <time.h>
-
-typedef struct philo
+typedef struct s_philo s_philo;
+typedef struct s_fork s_fork;
+struct s_philo 
 {
 	pthread_t		thread_id;
 	int				id;
-	int				n_fork;
-	char			is_avaliable;
-	int				condition;
-	int				action;
+	int				n_id;
 	unsigned long	last_eat;
 	unsigned long	t_now;
-	unsigned long	t_time;
 	unsigned long	t_start;
-	int				have_eaten;
-	pthread_mutex_t	f_left;
-	struct timeval	start;
-	struct timeval	now;
-}	t_philo;
+	s_fork			*fork;
+};
 
-typedef struct s_fork
+struct s_fork
 {
-	t_philo			*philos;
-	int				id_fork;
+	s_philo			*philos;
 	long			n_philos;
 	long			n_eat;
 	long			n_eaten;
 	long			time_die;
-	int				died;
 	long			time_eat;
 	long			time_sleep;
-	unsigned long	t_now;
-	unsigned long	t_time;
-	unsigned long	last_eat;
-	long			n_p_eat;
 	int				id;
+	int				id_fork;
+	int				died;
+	char			*is_avaliable;
+	pthread_mutex_t	*fork;
 	pthread_t		t_dead;
 	pthread_mutex_t	print;
 	pthread_mutex_t	l_eat;
 	pthread_mutex_t	d_eat;
 	pthread_mutex_t	is_dead;
-}	t_fork;
+};
 
 /* philo.c */
-int					print(t_fork *f, char *act, int id);
+int					print(s_philo f, char *act, int id);
 void				*mythreadfun(void *vargp);
 /* philo_utils.c */
-void				sleeping(t_fork *fork, unsigned long time, int id);
+void				sleeping(s_fork *fork, unsigned long time, int id);
 unsigned long		get_time(void);
 long				ft_atoi(const char *str);
 /* philo_init.c */
-int					ft_check_arg(t_fork *fork, char **argv, int argc);
-void				init_struct(t_fork *f);
-void				init_philo(int id, t_fork *f);
-void				detroy(t_fork *f);
-void				init_mutex(t_fork *f);
+int					ft_check_arg(s_fork *fork, char **argv, int argc);
+void				init_struct(s_fork *f);
+void				init_philo(int id, s_fork *f);
+void				detroy(s_fork *f);
+void				init_mutex(s_fork *f);
 /* philo_exit.c */
 void				*watch_exit(void *vargp);
-void				join_and_destroy(t_fork *f, int x, char trigger_dead);
-int					check_dead(t_fork *f, int h);
+void				join_and_destroy(s_fork *f, int x, char trigger_dead);
+int					check_dead(s_fork *f, int h);
 /* philo_actions.c */
-void				eat(t_fork *fork, int h, int z);
-void				take(t_fork *fork, int id_fork, int id_print);
-void				kip(t_fork *fork, int id);
-void				think(t_fork *fork, int id);
+void				eat(s_fork *fork, int h, int z);
+void				take(s_fork *p, int id, int n_id);
+void				kip(s_philo *p, long time);
+void				think(s_philo *p, long time);
 #endif
