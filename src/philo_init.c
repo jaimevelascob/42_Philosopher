@@ -37,11 +37,19 @@ int	ft_check_arg(s_fork *fork, char **argv, int argc)
 
 void	init_philo(int id, s_fork *f)
 {
+	int	n_id;
+
 	pthread_mutex_init(&f->fork[id], NULL);
 	f->philos[id].t_now = 0;
+	f->philos[id].condition = TAKE;
 	f->philos[id].id = id;
 	f->philos[id].n_id = id + 1 % f->n_philos;
 	f->philos[id].fork = (struct s_fork *)f;
+	f->philos[id].id = id;
+	n_id = f->philos[id].id + 1;
+	f->philos[id].n_id = n_id % f->n_philos;
+	f->philos[id].t_start = get_time();
+	f->philos[id].last_eat = f->philos[id].t_start;
 }
 
 void	init_mutex(s_fork *f)
@@ -79,7 +87,6 @@ void	detroy(s_fork *f)
 void	init_struct(s_fork *f)
 {
 	static int	id = -1;
-	static int	n_id;
 
 	init_mutex(f);
 	while (++id < f->n_philos)
@@ -88,9 +95,6 @@ void	init_struct(s_fork *f)
 	id = -1;
 	while (++id < f->n_philos)
 	{
-		f->philos[id].id = id;
-		n_id = f->philos[id].id + 1;
-		f->philos[id].n_id = n_id % f->n_philos;
 		pthread_create(&f->philos[id].thread_id, NULL, mythreadfun, &f->philos[id]);
 		usleep(1);
 	}

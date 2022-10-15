@@ -1,15 +1,15 @@
-CC = gcc -lpthread
+CC = gcc -pthread
 
-CFLAGS = -Wall -Wextra -Werror -0fast
-# LEAKS = -fsanitize=thread 
-LEAKS = -fsanitize=address -g3 
+CFLAGS = -Wall -Wextra -Werror 
+# LEAKS = -fsanitize=thread
+# LEAKS = -fsanitize=address -g3  
 SRC = src/philo.c src/philo_utils.c src/philo_actions.c src/philo_exit.c src/philo_init.c
-	 
+#$(CC) $(LEAKS) $(OBJ) -o philo 	 
 OBJ = $(SRC:.c=.o)
 all: philo
 
 philo: $(OBJ)
-	$(CC) $(LEAKS) $(OBJ) -o philo 
+	$(CC) $(OBJ) -o philo 	 
 %.o : %.c
 	gcc -c $< -o $@
 clean:

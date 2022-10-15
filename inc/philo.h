@@ -43,6 +43,7 @@ struct s_philo
 	pthread_t		thread_id;
 	int				id;
 	int				n_id;
+	int				condition;
 	unsigned long	last_eat;
 	unsigned long	t_now;
 	unsigned long	t_start;

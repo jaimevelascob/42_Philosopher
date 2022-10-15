@@ -28,21 +28,18 @@ void	*mythreadfun(void *vargp)
 {
 	s_philo	*p;
 	int	time_delay;
-	int		id;
-	int		n_id;
 
-	time_delay = 0;
 	p = vargp;
-	p->t_start = get_time();
-	p->last_eat = p->t_start;
 	if (p->id % 2 != 0)
-		time_delay = 100;
-	p->t_now = p->t_start + time_delay;
+		usleep(5);
 	while (!p->fork->died)
 	{
-		take(p->fork, p->id, p->n_id);
-		kip(p, p->fork[0].time_eat);
-		think(p,p->fork[0].time_sleep);
+		if (p->condition == TAKE)
+			take(p->fork, p->id, p->n_id);
+		else if (p->condition == SLEEP)
+			kip(p, p->fork->time_eat);
+		else if (p->condition == THINK)
+			think(p, p->fork->time_sleep);
 	}
 	return (0);
 }
