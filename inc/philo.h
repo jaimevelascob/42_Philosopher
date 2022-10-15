@@ -32,13 +32,14 @@
 [%ldms] \tphilo %d is dead\n\033[0;39m"
 # include <stdio.h>
 # include <stdlib.h>
-# include <unistd.h> 
+# include <unistd.h>
 # include <pthread.h>
 # include <sys/time.h>
 # include <time.h>
-typedef struct s_philo s_philo;
-typedef struct s_fork s_fork;
-struct s_philo 
+
+typedef struct s_philo	t_philo;
+typedef struct s_fork	t_fork;
+struct s_philo
 {
 	pthread_t		thread_id;
 	int				id;
@@ -47,12 +48,12 @@ struct s_philo
 	unsigned long	last_eat;
 	unsigned long	t_now;
 	unsigned long	t_start;
-	s_fork			*fork;
+	t_fork			*fork;
 };
 
 struct s_fork
 {
-	s_philo			*philos;
+	t_philo			*philos;
 	long			n_philos;
 	long			n_eat;
 	long			n_eaten;
@@ -72,25 +73,25 @@ struct s_fork
 };
 
 /* philo.c */
-int					print(s_philo f, char *act, int id);
+int					print(t_philo f, char *act, int id);
 void				*mythreadfun(void *vargp);
 /* philo_utils.c */
-void				sleeping(s_fork *fork, unsigned long time, int id);
+void				sleeping(t_fork *fork, unsigned long time, int id);
 unsigned long		get_time(void);
 long				ft_atoi(const char *str);
 /* philo_init.c */
-int					ft_check_arg(s_fork *fork, char **argv, int argc);
-void				init_struct(s_fork *f);
-void				init_philo(int id, s_fork *f);
-void				detroy(s_fork *f);
-void				init_mutex(s_fork *f);
+int					ft_check_arg(t_fork *fork, char **argv, int argc);
+void				init_struct(t_fork *f);
+void				init_philo(int id, t_fork *f);
+void				detroy(t_fork *f);
+void				init_mutex(t_fork *f);
 /* philo_exit.c */
 void				*watch_exit(void *vargp);
-void				join_and_destroy(s_fork *f, int x, char trigger_dead);
-int					check_dead(s_fork *f, int h);
+void				join_and_destroy(t_fork *f, int x, char trigger_dead);
+int					check_dead(t_fork *f, int h);
 /* philo_actions.c */
-void				eat(s_fork *fork, int h, int z);
-void				take(s_fork *p, int id, int n_id);
-void				kip(s_philo *p, long time);
-void				think(s_philo *p, long time);
+void				eat(t_fork *fork, int h, int z);
+void				take(t_fork *p, int id, int n_id);
+void				kip(t_philo *p, long time);
+void				think(t_philo *p, long time);
 #endif

@@ -14,12 +14,12 @@
 
 void	*watch_exit(void *vargp)
 {
-	s_fork	*f;
+	t_fork			*f;
 	unsigned long	last_eat;
 	long			n_p_eat;
 	unsigned long	t_time;
 
-	f = (s_fork *)vargp;
+	f = (t_fork *)vargp;
 	while (1)
 	{
 		last_eat = f->philos[f->id].last_eat;
@@ -39,7 +39,7 @@ void	*watch_exit(void *vargp)
 	}
 }
 
-void	join_and_destroy(s_fork *f, int x, char trigger_dead)
+void	join_and_destroy(t_fork *f, int x, char trigger_dead)
 {
 	static int	id;
 
@@ -54,7 +54,7 @@ void	join_and_destroy(s_fork *f, int x, char trigger_dead)
 	}
 }
 
-int	check_dead(s_fork *f, int h)
+int	check_dead(t_fork *f, int h)
 {
 	int	x;
 

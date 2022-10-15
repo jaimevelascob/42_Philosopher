@@ -12,9 +12,9 @@
 
 #include "../inc/philo.h"
 
-int	print(s_philo f, char *act, int id)
+int	print(t_philo f, char *act, int id)
 {
-	unsigned long t_time;
+	unsigned long	t_time;
 
 	t_time = f.t_now - f.t_start;
 	pthread_mutex_lock(&f.fork->print);
@@ -26,8 +26,8 @@ int	print(s_philo f, char *act, int id)
 
 void	*mythreadfun(void *vargp)
 {
-	s_philo	*p;
-	int	time_delay;
+	t_philo	*p;
+	int		time_delay;
 
 	p = vargp;
 	if (p->id % 2 != 0)
@@ -46,7 +46,7 @@ void	*mythreadfun(void *vargp)
 
 int	main(int argc, char **argv)
 {
-	s_fork	fork;
+	t_fork	fork;
 
 	if (ft_check_arg(&fork, argv, argc) == 0)
 		return (0);

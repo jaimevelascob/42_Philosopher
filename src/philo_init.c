@@ -12,7 +12,7 @@
 
 #include "../inc/philo.h"
 
-int	ft_check_arg(s_fork *fork, char **argv, int argc)
+int	ft_check_arg(t_fork *fork, char **argv, int argc)
 {
 	if (argc < 5)
 		return (0);
@@ -35,7 +35,7 @@ int	ft_check_arg(s_fork *fork, char **argv, int argc)
 	return (1);
 }
 
-void	init_philo(int id, s_fork *f)
+void	init_philo(int id, t_fork *f)
 {
 	int	n_id;
 
@@ -52,11 +52,11 @@ void	init_philo(int id, s_fork *f)
 	f->philos[id].last_eat = f->philos[id].t_start;
 }
 
-void	init_mutex(s_fork *f)
+void	init_mutex(t_fork *f)
 {
-	static int i;
+	static int	i;
 
-	f->philos = (s_philo *)malloc(sizeof(*(f->philos)) * f->n_philos);
+	f->philos = (t_philo *)malloc(sizeof(*(f->philos)) * f->n_philos);
 	pthread_mutex_init(&f->print, NULL);
 	f->fork = malloc(sizeof(pthread_mutex_t) * f->n_philos);
 	f->is_avaliable = malloc(sizeof(char) * f->n_philos);
@@ -64,11 +64,11 @@ void	init_mutex(s_fork *f)
 	pthread_mutex_init(&f->d_eat, NULL);
 	pthread_mutex_init(&f->is_dead, NULL);
 	f->id = 0;
-	while(i < f->n_philos)
+	while (i < f->n_philos)
 		f->is_avaliable[i++] = '1';
 }
 
-void	detroy(s_fork *f)
+void	detroy(t_fork *f)
 {
 	static int	id;
 
@@ -77,25 +77,32 @@ void	detroy(s_fork *f)
 		pthread_join(f->philos[id].thread_id, NULL);
 		id++;
 	}
-	pthread_mutex_destroy(&f->d_eat);
-	pthread_mutex_destroy(&f->l_eat);
+	/* pthread_mutex_destroy(&f->d_eat); */
+	/* pthread_mutex_destroy(&f->l_eat); */
 	/* pthread_mutex_destroy(&f->print); */
-	pthread_mutex_destroy(&f->is_dead);
+	/* pthread_mutex_destroy(&f->is_dead); */
 	free(f->philos);
+	free(f->is_avaliable);
+	free(f->fork);
 }
 
-void	init_struct(s_fork *f)
+void	init_struct(t_fork *f)
 {
 	static int	id = -1;
 
 	init_mutex(f);
 	while (++id < f->n_philos)
 		init_philo(id, f);
-	/* pthread_create(&f->t_dead, NULL, watch_exit, f); */
+	pthread_create(&f->t_dead, NULL, watch_exit, f);
 	id = -1;
 	while (++id < f->n_philos)
 	{
-		pthread_create(&f->philos[id].thread_id, NULL, mythreadfun, &f->philos[id]);
+		if (pthread_create(&f->philos[id].thread_id,
+				NULL, mythreadfun, &f->philos[id]) != 0)
+		{
+			printf("\nERROR\n");
+			return ;
+		}
 		usleep(1);
 	}
 	detroy(f);

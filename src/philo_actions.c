@@ -12,7 +12,7 @@
 
 #include "../inc/philo.h"
 
-void	eat(s_fork *f, int id, int id_next)
+void	eat(t_fork *f, int id, int id_next)
 {
 	print(f->philos[id], PHILO_EATS, id);
 	f->n_eaten++;
@@ -20,7 +20,7 @@ void	eat(s_fork *f, int id, int id_next)
 	f->philos[id].last_eat = get_time();
 }
 
-void	take(s_fork *p, int id, int n_id)
+void	take(t_fork *p, int id, int n_id)
 {
 	pthread_mutex_lock(&p->fork[id]);
 	if (p->is_avaliable[id] == '1')
@@ -48,7 +48,7 @@ void	take(s_fork *p, int id, int n_id)
 	pthread_mutex_unlock(&p->fork[id]);
 }
 
-void	kip(s_philo *p, long time)
+void	kip(t_philo *p, long time)
 {
 	p->t_now += time;
 	print(*p, PHILO_SLEEPS, p->id);
@@ -56,7 +56,7 @@ void	kip(s_philo *p, long time)
 	p->condition = THINK;
 }
 
-void	think(s_philo *p, long time)
+void	think(t_philo *p, long time)
 {
 	p->t_now += time;
 	print(*p, PHILO_THINKS, p->id);

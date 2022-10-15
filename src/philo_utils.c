@@ -22,7 +22,7 @@ unsigned long	get_time(void)
 	return (time);
 }
 
-void	sleeping(s_fork *fork, unsigned long time, int id)
+void	sleeping(t_fork *fork, unsigned long time, int id)
 {
 	unsigned long	now;
 
