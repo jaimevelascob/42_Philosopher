@@ -42,9 +42,11 @@ typedef struct s_fork	t_fork;
 struct s_philo
 {
 	pthread_t		thread_id;
+	int				n_fork;
 	int				id;
 	int				n_id;
 	int				condition;
+	int				is_avaliable;
 	unsigned long	last_eat;
 	unsigned long	t_now;
 	unsigned long	t_start;
@@ -70,6 +72,7 @@ struct s_fork
 	pthread_mutex_t	l_eat;
 	pthread_mutex_t	d_eat;
 	pthread_mutex_t	is_dead;
+	pthread_mutex_t	nid;
 };
 
 /* philo.c */

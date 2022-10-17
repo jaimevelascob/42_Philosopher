@@ -39,15 +39,16 @@ void	init_philo(int id, t_fork *f)
 {
 	int	n_id;
 
+	if (id % 2 != 0)
+		f->is_avaliable[id] = '0';
+	else
+		f->is_avaliable[id] = '1';
 	pthread_mutex_init(&f->fork[id], NULL);
-	f->philos[id].t_now = 0;
 	f->philos[id].condition = TAKE;
-	f->philos[id].id = id;
-	f->philos[id].n_id = id + 1 % f->n_philos;
-	f->philos[id].fork = (struct s_fork *)f;
 	f->philos[id].id = id;
 	n_id = f->philos[id].id + 1;
 	f->philos[id].n_id = n_id % f->n_philos;
+	f->philos[id].fork = (struct s_fork *)f;
 	f->philos[id].t_start = get_time();
 	f->philos[id].last_eat = f->philos[id].t_start;
 }
@@ -63,9 +64,8 @@ void	init_mutex(t_fork *f)
 	pthread_mutex_init(&f->l_eat, NULL);
 	pthread_mutex_init(&f->d_eat, NULL);
 	pthread_mutex_init(&f->is_dead, NULL);
+	pthread_mutex_init(&f->nid, NULL);
 	f->id = 0;
-	while (i < f->n_philos)
-		f->is_avaliable[i++] = '1';
 }
 
 void	detroy(t_fork *f)
@@ -93,10 +93,11 @@ void	init_struct(t_fork *f)
 	init_mutex(f);
 	while (++id < f->n_philos)
 		init_philo(id, f);
-	pthread_create(&f->t_dead, NULL, watch_exit, f);
 	id = -1;
 	while (++id < f->n_philos)
 	{
+		f->id = id;
+		printf("b %d\n", f->philos[id].id);
 		if (pthread_create(&f->philos[id].thread_id,
 				NULL, mythreadfun, &f->philos[id]) != 0)
 		{
@@ -105,5 +106,6 @@ void	init_struct(t_fork *f)
 		}
 		usleep(1);
 	}
+	pthread_create(&f->t_dead, NULL, watch_exit, f);
 	detroy(f);
 }

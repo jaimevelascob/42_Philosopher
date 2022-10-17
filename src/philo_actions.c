@@ -25,27 +25,26 @@ void	take(t_fork *p, int id, int n_id)
 	pthread_mutex_lock(&p->fork[id]);
 	if (p->is_avaliable[id] == '1')
 	{
-		p->philos[id].t_now = get_time();
+			printf("aa %d %d %c %c\n", id, n_id, p->is_avaliable[id], p->is_avaliable[n_id]);
 		print(p->philos[id], LEFT_FORK_TAKEN, id);
 		p->is_avaliable[id] = '0';
+		p->philos[id].n_fork = 1;
 	}
+	pthread_mutex_unlock(&p->fork[id]);
 	if (p->n_philos != 1)
 	{
 		pthread_mutex_lock(&p->fork[n_id]);
-		if (p->is_avaliable[n_id] == '1'
-			&& p->is_avaliable[id] == '0')
+		if (p->is_avaliable[n_id] == '0' && p->is_avaliable[id] == '0' && p->philos[id].n_fork)
 		{
-			p->is_avaliable[n_id] = '0';
-			p->philos[id].t_now = get_time();
+			printf("bb %d %d %c %c\n", id, n_id, p->is_avaliable[id], p->is_avaliable[n_id]);
 			print(p->philos[id], RIGHT_FORK_TAKEN, id);
 			eat(p, id, n_id);
-			p->is_avaliable[n_id] = '1';
 			p->philos[id].condition = SLEEP;
-			p->is_avaliable[id] = '1';
+			p->is_avaliable[n_id] = '1';
+			p->philos[id].n_fork = 0;
 		}
 		pthread_mutex_unlock(&p->fork[n_id]);
 	}
-	pthread_mutex_unlock(&p->fork[id]);
 }
 
 void	kip(t_philo *p, long time)

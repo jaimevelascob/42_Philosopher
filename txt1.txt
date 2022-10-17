@@ -1,0 +1,229 @@
+ [0ms] 	philo 1 has taken left fork
+ [0ms] 	philo 1 has taken right fork
+ [0ms] 	philo 1 is eating 
+ [0ms] 	philo 3 has taken left fork
+ [0ms] 	philo 3 has taken right fork
+ [0ms] 	philo 3 is eating 
+ [1ms] 	philo 5 has taken left fork
+ [1ms] 	philo 5 has taken right fork
+ [1ms] 	philo 5 is eating 
+ [1ms] 	philo 7 has taken left fork
+ [1ms] 	philo 7 has taken right fork
+ [1ms] 	philo 7 is eating 
+ [1ms] 	philo 9 has taken left fork
+ [1ms] 	philo 9 has taken right fork
+ [1ms] 	philo 9 is eating 
+ [1ms] 	philo 11 has taken left fork
+ [1ms] 	philo 11 has taken right fork
+ [1ms] 	philo 11 is eating 
+ [2ms] 	philo 13 has taken left fork
+ [2ms] 	philo 13 has taken right fork
+ [2ms] 	philo 13 is eating 
+ [2ms] 	philo 15 has taken left fork
+ [2ms] 	philo 15 has taken right fork
+ [2ms] 	philo 15 is eating 
+ [2ms] 	philo 17 has taken left fork
+ [2ms] 	philo 17 has taken right fork
+ [2ms] 	philo 17 is eating 
+ [2ms] 	philo 19 has taken left fork
+ [2ms] 	philo 19 has taken right fork
+ [2ms] 	philo 19 is eating 
+ [3ms] 	philo 21 has taken left fork
+ [3ms] 	philo 21 has taken right fork
+ [3ms] 	philo 21 is eating 
+ [3ms] 	philo 23 has taken left fork
+ [3ms] 	philo 23 has taken right fork
+ [3ms] 	philo 23 is eating 
+ [3ms] 	philo 25 has taken left fork
+ [3ms] 	philo 25 has taken right fork
+ [3ms] 	philo 25 is eating 
+ [4ms] 	philo 27 has taken left fork
+ [4ms] 	philo 27 has taken right fork
+ [4ms] 	philo 27 is eating 
+ [4ms] 	philo 29 has taken left fork
+ [4ms] 	philo 29 has taken right fork
+ [4ms] 	philo 29 is eating 
+ [4ms] 	philo 31 has taken left fork
+ [4ms] 	philo 31 has taken right fork
+ [4ms] 	philo 31 is eating 
+ [4ms] 	philo 33 has taken left fork
+ [4ms] 	philo 33 has taken right fork
+ [4ms] 	philo 33 is eating 
+ [5ms] 	philo 35 has taken left fork
+ [5ms] 	philo 35 has taken right fork
+ [5ms] 	philo 35 is eating 
+ [5ms] 	philo 37 has taken left fork
+ [5ms] 	philo 37 has taken right fork
+ [5ms] 	philo 37 is eating 
+ [5ms] 	philo 39 has taken left fork
+ [5ms] 	philo 39 has taken right fork
+ [5ms] 	philo 39 is eating 
+ [5ms] 	philo 41 has taken left fork
+ [6ms] 	philo 41 has taken right fork
+ [6ms] 	philo 41 is eating 
+ [6ms] 	philo 43 has taken left fork
+ [6ms] 	philo 43 has taken right fork
+ [6ms] 	philo 43 is eating 
+ [6ms] 	philo 45 has taken left fork
+ [6ms] 	philo 45 has taken right fork
+ [6ms] 	philo 45 is eating 
+ [6ms] 	philo 47 has taken left fork
+ [6ms] 	philo 47 has taken right fork
+ [6ms] 	philo 47 is eating 
+ [7ms] 	philo 49 has taken left fork
+ [7ms] 	philo 49 has taken right fork
+ [7ms] 	philo 49 is eating 
+ [7ms] 	philo 51 has taken left fork
+ [7ms] 	philo 51 has taken right fork
+ [7ms] 	philo 51 is eating 
+ [7ms] 	philo 53 has taken left fork
+ [7ms] 	philo 53 has taken right fork
+ [7ms] 	philo 53 is eating 
+ [8ms] 	philo 55 has taken left fork
+ [8ms] 	philo 55 has taken right fork
+ [8ms] 	philo 55 is eating 
+ [8ms] 	philo 57 has taken left fork
+ [8ms] 	philo 57 has taken right fork
+ [8ms] 	philo 57 is eating 
+ [8ms] 	philo 59 has taken left fork
+ [8ms] 	philo 59 has taken right fork
+ [8ms] 	philo 59 is eating 
+ [9ms] 	philo 61 has taken left fork
+ [9ms] 	philo 61 has taken right fork
+ [9ms] 	philo 61 is eating 
+ [9ms] 	philo 63 has taken left fork
+ [9ms] 	philo 63 has taken right fork
+ [9ms] 	philo 63 is eating 
+ [9ms] 	philo 65 has taken left fork
+ [9ms] 	philo 65 has taken right fork
+ [9ms] 	philo 65 is eating 
+ [10ms] 	philo 67 has taken left fork
+ [10ms] 	philo 67 has taken right fork
+ [10ms] 	philo 67 is eating 
+ [10ms] 	philo 68 is sleaping
+ [10ms] 	philo 69 has taken left fork
+ [10ms] 	philo 69 has taken right fork
+ [10ms] 	philo 69 is eating 
+ [11ms] 	philo 71 has taken left fork
+ [11ms] 	philo 71 has taken right fork
+ [11ms] 	philo 71 is eating 
+ [11ms] 	philo 73 has taken left fork
+ [11ms] 	philo 73 has taken right fork
+ [11ms] 	philo 73 is eating 
+ [11ms] 	philo 75 has taken left fork
+ [11ms] 	philo 75 has taken right fork
+ [11ms] 	philo 75 is eating 
+ [12ms] 	philo 77 has taken left fork
+ [12ms] 	philo 77 has taken right fork
+ [12ms] 	philo 77 is eating 
+ [12ms] 	philo 79 has taken left fork
+ [12ms] 	philo 79 has taken right fork
+ [12ms] 	philo 79 is eating 
+ [12ms] 	philo 81 has taken left fork
+ [12ms] 	philo 81 has taken right fork
+ [12ms] 	philo 81 is eating 
+ [13ms] 	philo 83 has taken left fork
+ [13ms] 	philo 83 has taken right fork
+ [13ms] 	philo 83 is eating 
+ [13ms] 	philo 85 has taken left fork
+ [13ms] 	philo 85 has taken right fork
+ [13ms] 	philo 85 is eating 
+ [13ms] 	philo 87 has taken left fork
+ [13ms] 	philo 87 has taken right fork
+ [14ms] 	philo 87 is eating 
+ [14ms] 	philo 89 has taken left fork
+ [14ms] 	philo 89 has taken right fork
+ [14ms] 	philo 89 is eating 
+ [14ms] 	philo 91 has taken left fork
+ [14ms] 	philo 91 has taken right fork
+ [14ms] 	philo 91 is eating 
+ [15ms] 	philo 93 has taken left fork
+ [15ms] 	philo 93 has taken right fork
+ [15ms] 	philo 93 is eating 
+ [15ms] 	philo 95 has taken left fork
+ [15ms] 	philo 95 has taken right fork
+ [15ms] 	philo 95 is eating 
+ [15ms] 	philo 97 has taken left fork
+ [15ms] 	philo 97 has taken right fork
+ [15ms] 	philo 97 is eating 
+ [16ms] 	philo 99 has taken left fork
+ [16ms] 	philo 99 has taken right fork
+ [16ms] 	philo 99 is eating 
+ [16ms] 	philo 101 has taken left fork
+ [16ms] 	philo 101 has taken right fork
+ [16ms] 	philo 101 is eating 
+ [16ms] 	philo 103 has taken left fork
+ [17ms] 	philo 103 has taken right fork
+ [17ms] 	philo 103 is eating 
+ [18ms] 	philo 108 is sleaping
+ [18ms] 	philo 109 has taken left fork
+ [18ms] 	philo 109 has taken right fork
+ [18ms] 	philo 109 is eating 
+ [18ms] 	philo 111 has taken left fork
+ [18ms] 	philo 111 has taken right fork
+ [18ms] 	philo 111 is eating 
+ [19ms] 	philo 113 has taken left fork
+ [19ms] 	philo 113 has taken right fork
+ [19ms] 	philo 113 is eating 
+ [20ms] 	philo 115 has taken left fork
+ [20ms] 	philo 115 has taken right fork
+ [20ms] 	philo 115 is eating 
+ [20ms] 	philo 117 has taken left fork
+ [20ms] 	philo 117 has taken right fork
+ [20ms] 	philo 117 is eating 
+ [20ms] 	philo 119 has taken left fork
+ [21ms] 	philo 119 has taken right fork
+ [21ms] 	philo 119 is eating 
+ [21ms] 	philo 121 has taken left fork
+ [21ms] 	philo 121 has taken right fork
+ [21ms] 	philo 121 is eating 
+ [21ms] 	philo 123 has taken left fork
+ [21ms] 	philo 123 has taken right fork
+ [21ms] 	philo 123 is eating 
+ [22ms] 	philo 124 is sleaping
+ [22ms] 	philo 127 has taken left fork
+ [22ms] 	philo 127 has taken right fork
+ [22ms] 	philo 127 is eating 
+ [22ms] 	philo 129 has taken left fork
+ [22ms] 	philo 129 has taken right fork
+ [22ms] 	philo 129 is eating 
+ [23ms] 	philo 131 has taken left fork
+ [23ms] 	philo 131 has taken right fork
+ [23ms] 	philo 131 is eating 
+ [24ms] 	philo 135 has taken left fork
+ [24ms] 	philo 135 has taken right fork
+ [24ms] 	philo 135 is eating 
+ [24ms] 	philo 137 has taken left fork
+ [25ms] 	philo 138 is sleaping
+ [25ms] 	philo 137 has taken right fork
+ [25ms] 	philo 137 is eating 
+ [25ms] 	philo 140 is sleaping
+ [25ms] 	philo 141 has taken left fork
+ [25ms] 	philo 141 has taken right fork
+ [26ms] 	philo 141 is eating 
+ [26ms] 	philo 143 has taken left fork
+ [26ms] 	philo 143 has taken right fork
+ [26ms] 	philo 143 is eating 
+ [26ms] 	philo 145 has taken left fork
+ [26ms] 	philo 145 has taken right fork
+ [26ms] 	philo 145 is eating 
+ [26ms] 	philo 148 is sleaping
+ [27ms] 	philo 149 has taken left fork
+ [27ms] 	philo 149 has taken right fork
+ [27ms] 	philo 149 is eating 
+ [29ms] 	philo 133 has taken left fork
+ [29ms] 	philo 139 has taken left fork
+ [30ms] 	philo 139 has taken right fork
+ [30ms] 	philo 139 is eating 
+ [30ms] 	philo 106 is sleaping
+ [30ms] 	philo 147 has taken left fork
+ [31ms] 	philo 147 has taken right fork
+ [31ms] 	philo 147 is eating 
+ [31ms] 	philo 107 has taken left fork
+ [32ms] 	philo 107 has taken right fork
+ [32ms] 	philo 107 is eating 
+ [32ms] 	philo 125 has taken left fork
+ [32ms] 	philo 105 has taken left fork
+ [32ms] 	philo 105 has taken right fork
+ [32ms] 	philo 105 is eating 
+
