@@ -97,7 +97,7 @@ void	init_struct(t_fork *f)
 	while (++id < f->n_philos)
 	{
 		f->id = id;
-		printf("b %d\n", f->philos[id].id);
+		/* printf("b %d\n", f->philos[id].id); */
 		if (pthread_create(&f->philos[id].thread_id,
 				NULL, mythreadfun, &f->philos[id]) != 0)
 		{

@@ -25,7 +25,6 @@ void	take(t_fork *p, int id, int n_id)
 	pthread_mutex_lock(&p->fork[id]);
 	if (p->is_avaliable[id] == '1')
 	{
-			printf("aa %d %d %c %c\n", id, n_id, p->is_avaliable[id], p->is_avaliable[n_id]);
 		print(p->philos[id], LEFT_FORK_TAKEN, id);
 		p->is_avaliable[id] = '0';
 		p->philos[id].n_fork = 1;
@@ -34,9 +33,9 @@ void	take(t_fork *p, int id, int n_id)
 	if (p->n_philos != 1)
 	{
 		pthread_mutex_lock(&p->fork[n_id]);
-		if (p->is_avaliable[n_id] == '0' && p->is_avaliable[id] == '0' && p->philos[id].n_fork)
+		if (p->is_avaliable[n_id] == '0'
+			&& p->is_avaliable[id] == '0' && p->philos[id].n_fork)
 		{
-			printf("bb %d %d %c %c\n", id, n_id, p->is_avaliable[id], p->is_avaliable[n_id]);
 			print(p->philos[id], RIGHT_FORK_TAKEN, id);
 			eat(p, id, n_id);
 			p->philos[id].condition = SLEEP;
