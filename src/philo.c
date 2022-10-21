@@ -17,7 +17,6 @@ int	print(t_philo f, char *act, int id)
 	unsigned long	t_time;
 
 	pthread_mutex_lock(&f.fork->print);
-	f.t_now = get_time();
 	t_time = f.t_now - f.t_start;
 	if (!f.fork->died)
 		printf(act, t_time, id + 1, act);
@@ -32,7 +31,11 @@ void	*mythreadfun(void *vargp)
 	p = vargp;
 	while (!p->fork->died)
 	{
-		if (p->condition == TAKE)
+		if (p->t_now - p->last_eat > p->fork->time_die)
+			join_and_destroy(p->fork, p->id, '1');
+		else if (p->fork->n_eaten == p->fork->n_eat * p->fork->n_philos)
+			join_and_destroy(p->fork, p->id, '0');
+		else if (p->condition == TAKE)
 			take(p->fork, p->id, p->n_id);
 		else if (p->condition == SLEEP)
 			kip(p, p->fork->time_eat);

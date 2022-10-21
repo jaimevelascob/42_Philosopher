@@ -50,6 +50,7 @@ void	init_philo(int id, t_fork *f)
 	f->philos[id].n_id = n_id % f->n_philos;
 	f->philos[id].fork = (struct s_fork *)f;
 	f->philos[id].t_start = get_time();
+	f->philos[id].t_now = f->philos[id].t_start;
 	f->philos[id].last_eat = f->philos[id].t_start;
 }
 
@@ -77,10 +78,6 @@ void	detroy(t_fork *f)
 		pthread_join(f->philos[id].thread_id, NULL);
 		id++;
 	}
-	/* pthread_mutex_destroy(&f->d_eat); */
-	/* pthread_mutex_destroy(&f->l_eat); */
-	/* pthread_mutex_destroy(&f->print); */
-	/* pthread_mutex_destroy(&f->is_dead); */
 	free(f->philos);
 	free(f->is_avaliable);
 	free(f->fork);
@@ -93,19 +90,17 @@ void	init_struct(t_fork *f)
 	init_mutex(f);
 	while (++id < f->n_philos)
 		init_philo(id, f);
+	if (f->n_philos % 2 != 0 && f->n_philos != 1)
+		f->is_avaliable[f->n_philos - 1] = '0';
 	id = -1;
 	while (++id < f->n_philos)
 	{
-		f->id = id;
-		/* printf("b %d\n", f->philos[id].id); */
 		if (pthread_create(&f->philos[id].thread_id,
 				NULL, mythreadfun, &f->philos[id]) != 0)
 		{
 			printf("\nERROR\n");
 			return ;
 		}
-		usleep(1);
 	}
-	pthread_create(&f->t_dead, NULL, watch_exit, f);
 	detroy(f);
 }

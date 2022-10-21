@@ -24,7 +24,7 @@ void	*watch_exit(void *vargp)
 	{
 		last_eat = f->philos[f->id].last_eat;
 		n_p_eat = f->n_eaten;
-		t_time = get_time() - last_eat;
+		t_time = f->philos[f->id].t_now - last_eat;
 		if (n_p_eat == f->n_eat * f->n_philos)
 		{
 			join_and_destroy(f, f->id, '0');
@@ -32,6 +32,7 @@ void	*watch_exit(void *vargp)
 		}
 		if (t_time >= f->time_die)
 		{
+			printf("%ld %ld \n", t_time, f->time_die);
 			join_and_destroy(f, f->id, '1');
 			break ;
 		}

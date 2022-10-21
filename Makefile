@@ -9,7 +9,7 @@ OBJ = $(SRC:.c=.o)
 all: philo
 
 philo: $(OBJ)
-	$(CC) $(LEAKS) $(CFLAGS) $(OBJ) -o philo 	 
+	$(CC) $(CFLAGS) $(OBJ) -o philo 	 
 %.o : %.c
 	gcc -c $< -o $@
 clean:
