@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:42:25 by jvelasco          #+#    #+#             */
-/*   Updated: 2022/09/02 16:29:41 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:32:56 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 [%ldms] \tphilo %d is thinking\n\033[0;39m"
 # define PHILO_DIED  "\033[0;31m \
 [%ldms] \tphilo %d is dead\n\033[0;39m"
+# define BAD_TIME  "\033[0;31m\
+parmametres should be more than 0\n\033[0;39m"
+# define BAD_NUMBER  "\033[0;31m\
+number of philos should be more than 0\n\033[0;39m"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -82,6 +86,7 @@ void				*mythreadfun(void *vargp);
 void				sleeping(t_fork *fork, unsigned long time, int id);
 unsigned long		get_time(void);
 long				ft_atoi(const char *str);
+int					check_numbers(t_fork *fork, char a);
 /* philo_init.c */
 int					ft_check_arg(t_fork *fork, char **argv, int argc);
 void				init_struct(t_fork *f);

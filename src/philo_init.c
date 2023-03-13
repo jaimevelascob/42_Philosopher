@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:41:48 by jvelasco          #+#    #+#             */
-/*   Updated: 2022/09/02 16:31:48 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:32:00 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int	ft_check_arg(t_fork *fork, char **argv, int argc)
 {
+	char	a;
+
+	a = 'b';
 	if (argc < 5)
 		return (0);
 	fork->n_philos = ft_atoi(argv[1]);
@@ -24,12 +27,11 @@ int	ft_check_arg(t_fork *fork, char **argv, int argc)
 	if (argc > 5)
 		fork->n_eat = ft_atoi(argv[5]);
 	else
+	{
 		fork->n_eat = -1;
-	if (fork->n_philos == 0
-		|| fork->time_die == 0
-		|| fork->time_eat == 0
-		|| fork->time_sleep == 0
-		|| fork->n_eat == 0)
+		a = 'a';
+	}
+	if (!check_numbers(fork, a))
 		return (0);
 	fork->died = 0;
 	return (1);

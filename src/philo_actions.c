@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:41:08 by jvelasco          #+#    #+#             */
-/*   Updated: 2022/09/02 16:31:12 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/02 14:03:44 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	prepare_eat(t_fork *p, int id, int n_id)
 {
-	p->philos[id].t_now = get_time();
 	p->philos[id].last_eat = p->philos[id].t_now;
 	print(p->philos[id], RIGHT_FORK_TAKEN, id);
 	eat(p, id, n_id);

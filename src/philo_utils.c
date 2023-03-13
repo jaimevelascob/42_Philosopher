@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:41:53 by jvelasco          #+#    #+#             */
-/*   Updated: 2022/08/30 18:40:25 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:33:57 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,20 @@ long	ft_atoi(const char *str)
 			return (0);
 	}
 	return (res * oper);
+}
+
+int	check_numbers(t_fork *fork, char a)
+{
+	if (fork->n_philos <= 0 || fork->n_philos > 200)
+	{
+		printf(BAD_NUMBER);
+		return (0);
+	}
+	if (fork->time_die <= 0 || fork->time_eat <= 0
+		|| fork->time_sleep <= 0 || (a != 'a' && fork->n_eat <= 0))
+	{
+		printf(BAD_TIME);
+		return (0);
+	}
+	return (1);
 }
