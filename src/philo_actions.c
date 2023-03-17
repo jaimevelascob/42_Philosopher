@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:41:08 by jvelasco          #+#    #+#             */
-/*   Updated: 2023/03/02 14:03:44 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/17 14:47:32 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	prepare_eat(t_fork *p, int id, int n_id)
 void	eat(t_fork *f, int id, int id_next)
 {
 	print(f->philos[id], PHILO_EATS, id);
-	f->n_eaten++;
+	pthread_mutex_lock(&f->l_eat);
+	if (f->n_eat != -1)
+		f->n_eat--;
+	pthread_mutex_unlock(&f->l_eat);
 	sleeping(f, f->time_eat, id);
 }
 

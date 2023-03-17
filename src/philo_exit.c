@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:41:41 by jvelasco          #+#    #+#             */
-/*   Updated: 2023/03/13 14:38:44 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/17 14:04:52 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,18 @@ void	join_and_destroy(t_fork *f, int x, char trigger_dead)
 {
 	static int	id;
 
+	pthread_mutex_lock(&f->print);
+	pthread_mutex_lock(&f->d_eat);
+	f->philos[x].t_now = get_time();
+	if (trigger_dead == '1' && !check_dead(f, 1))
+	{
+		printf(PHILO_DIED, get_time() - f->philos[x].t_start, x + 1);
+	}
 	pthread_mutex_lock(&f->is_dead);
 	f->died = 1;
 	pthread_mutex_unlock(&f->is_dead);
-	if (trigger_dead == '1')
-	{
-		pthread_mutex_lock(&f->print);
-		printf(PHILO_DIED, get_time() - f->philos[x].t_start, x + 1);
-		pthread_mutex_unlock(&f->print);
-	}
+	pthread_mutex_unlock(&f->d_eat);
+	pthread_mutex_unlock(&f->print);
 }
 
 int	check_dead(t_fork *f, int h)

@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:41:48 by jvelasco          #+#    #+#             */
-/*   Updated: 2023/03/13 17:32:00 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/17 13:32:50 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ int	ft_check_arg(t_fork *fork, char **argv, int argc)
 	fork->time_die = ft_atoi(argv[2]);
 	fork->time_eat = ft_atoi(argv[3]);
 	fork->time_sleep = ft_atoi(argv[4]);
-	fork->n_eaten = 0;
 	if (argc > 5)
+	{
 		fork->n_eat = ft_atoi(argv[5]);
+		fork->n_eat *= fork->n_philos;
+	}
 	else
 	{
 		fork->n_eat = -1;
@@ -41,6 +43,9 @@ void	init_philo(int id, t_fork *f)
 {
 	int	n_id;
 
+	f->philos[id].t_start = get_time();
+	f->philos[id].t_now = f->philos[id].t_start;
+	f->odd = 0;
 	if (id % 2 != 0)
 		f->is_avaliable[id] = '0';
 	else
@@ -51,8 +56,6 @@ void	init_philo(int id, t_fork *f)
 	n_id = f->philos[id].id + 1;
 	f->philos[id].n_id = n_id % f->n_philos;
 	f->philos[id].fork = (struct s_fork *)f;
-	f->philos[id].t_start = get_time();
-	f->philos[id].t_now = f->philos[id].t_start;
 	f->philos[id].last_eat = f->philos[id].t_start;
 }
 
@@ -93,7 +96,7 @@ void	init_struct(t_fork *f)
 	while (++id < f->n_philos)
 		init_philo(id, f);
 	if (f->n_philos % 2 != 0 && f->n_philos != 1)
-		f->is_avaliable[f->n_philos - 1] = '0';
+			f->is_avaliable[f->n_philos - 1] = '0';
 	id = -1;
 	while (++id < f->n_philos)
 	{

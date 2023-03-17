@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:42:25 by jvelasco          #+#    #+#             */
-/*   Updated: 2023/03/16 12:48:28 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:32:56 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ struct s_philo
 	int				id;
 	int				n_id;
 	int				condition;
-	int				n_eat;
 	int				is_avaliable;
 	unsigned long	last_eat;
 	unsigned long	t_now;
@@ -70,7 +69,6 @@ struct s_fork
 	int				id;
 	int				id_fork;
 	int				died;
-	int				odd;
 	char			*is_avaliable;
 	pthread_mutex_t	*fork;
 	pthread_t		t_dead;

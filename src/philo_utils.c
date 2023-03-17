@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:41:53 by jvelasco          #+#    #+#             */
-/*   Updated: 2023/03/13 17:33:57 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/17 14:54:57 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	sleeping(t_fork *fork, unsigned long time, int id)
 	now = get_time();
 	while (1)
 	{
-		if (get_time() - now >= time || fork->died)
+		if (get_time() - now >= time || get_time() - fork->philos[id].t_now > fork->time_die)
 			break ;
 		usleep(50);
 	}
