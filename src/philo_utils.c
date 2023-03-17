@@ -29,8 +29,12 @@ void	sleeping(t_fork *fork, unsigned long time, int id)
 	now = get_time();
 	while (1)
 	{
-		if (get_time() - now >= time || get_time() - fork->philos[id].t_now > fork->time_die)
+		if (get_time() - fork->philos[id].t_now > fork->time_die)
+			join_and_destroy(fork, id, '1');
+		if (get_time() - now >= time || check_dead(fork,1)) 
 			break ;
+		/* if (get_time() - now >= time) */
+		/* 	break ; */
 		usleep(50);
 	}
 }

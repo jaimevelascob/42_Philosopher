@@ -20,16 +20,18 @@ void	prepare_eat(t_fork *p, int id, int n_id)
 	p->philos[id].condition = SLEEP;
 	p->is_avaliable[n_id] = '1';
 	p->philos[id].n_fork = 0;
+	p->philos[id].t_now += p->time_eat;
+	print(p->philos[id], PHILO_SLEEPS, id);
 }
 
 void	eat(t_fork *f, int id, int id_next)
 {
 	print(f->philos[id], PHILO_EATS, id);
+	sleeping(f, f->time_eat, id);
 	pthread_mutex_lock(&f->l_eat);
 	if (f->n_eat != -1)
 		f->n_eat--;
 	pthread_mutex_unlock(&f->l_eat);
-	sleeping(f, f->time_eat, id);
 }
 
 void	take(t_fork *p, int id, int n_id)
@@ -51,28 +53,27 @@ void	take(t_fork *p, int id, int n_id)
 			prepare_eat(p, id, n_id);
 		pthread_mutex_unlock(&p->fork[n_id]);
 	}
-	else
-		p->philos[id].t_now = get_time();
 }
 
 void	kip(t_philo *p, long time)
 {
-	p->t_now += time;
 	if (p->t_now - p->last_eat < p->fork->time_die)
 	{
-		print(*p, PHILO_SLEEPS, p->id);
 		sleeping(p->fork, time, p->id);
 		p->condition = THINK;
 	}
+	else
+		join_and_destroy(p->fork, p->id, '1');
 }
 
 void	think(t_philo *p, long time)
 {
-	p->t_now += time;
 	if (p->t_now - p->last_eat < p->fork->time_die)
 	{
 		print(*p, PHILO_THINKS, p->id);
 		usleep(REPEAT);
 		p->condition = TAKE;
 	}
+	else
+		join_and_destroy(p->fork, p->id, '1');
 }

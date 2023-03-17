@@ -51,15 +51,17 @@ void	*mythreadfun(void *vargp)
 	p = vargp;
 	while (!check_dead(p->fork, 1) && check_philo(p))
 	{
-		/* p->t_now = get_time(); */
-		if (p->condition == TAKE && check_philo(p) && (!check_dead(p->fork, 1)))
-			take(p->fork, p->id, p->n_id);
-		else if (p->condition == SLEEP && check_philo(p)
-			&& (!check_dead(p->fork, 1)))
-			kip(p, p->fork->time_eat);
-		else if (p->condition == THINK && check_philo(p)
-			&& (!check_dead(p->fork, 1)))
-			think(p, p->fork->time_sleep);
+		p->t_now = get_time();
+		if (check_philo(p) && !check_dead(p->fork, 1))
+		{
+			if (p->condition == TAKE)
+				take(p->fork, p->id, p->n_id);
+			else if (p->condition == SLEEP)
+				kip(p, p->fork->time_eat);
+			else if (p->condition == THINK)
+				think(p, p->fork->time_sleep);
+		}
+		usleep(50);
 	}
 	return (0);
 }
