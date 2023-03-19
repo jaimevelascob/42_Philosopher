@@ -37,7 +37,7 @@ void	eat(t_fork *f, int id, int id_next)
 void	take(t_fork *p, int id, int n_id)
 {
 	pthread_mutex_lock(&p->fork[id]);
-	if (p->is_avaliable[id] == '1')
+	if (p->is_avaliable[id] == '1' && check_philo(p->philos[id]))
 	{
 		p->philos[id].t_now = get_time();
 		print(p->philos[id], LEFT_FORK_TAKEN, id);
@@ -49,7 +49,8 @@ void	take(t_fork *p, int id, int n_id)
 	{
 		pthread_mutex_lock(&p->fork[n_id]);
 		if (p->is_avaliable[n_id] == '0'
-			&& p->is_avaliable[id] == '0' && p->philos[id].n_fork)
+			&& p->is_avaliable[id] == '0' && p->philos[id].n_fork
+			&& check_philo(p->philos[id]))
 			prepare_eat(p, id, n_id);
 		pthread_mutex_unlock(&p->fork[n_id]);
 	}

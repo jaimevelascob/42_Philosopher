@@ -25,16 +25,17 @@ unsigned long	get_time(void)
 void	sleeping(t_fork *fork, unsigned long time, int id)
 {
 	unsigned long	now;
+	const int		n_id = fork->philos[id].n_id;
 
 	now = get_time();
 	while (1)
 	{
-		if (get_time() - fork->philos[id].t_now > fork->time_die)
+		if (get_time() - fork->philos[id].last_eat > fork->time_die)
 			join_and_destroy(fork, id, '1');
-		if (get_time() - now >= time || check_dead(fork,1)) 
+		if (get_time() - fork->philos[n_id].last_eat > fork->time_die)
+			join_and_destroy(fork, n_id, '1');
+		if (get_time() - now >= time || check_dead(fork, 1))
 			break ;
-		/* if (get_time() - now >= time) */
-		/* 	break ; */
 		usleep(50);
 	}
 }

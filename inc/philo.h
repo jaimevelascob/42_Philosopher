@@ -84,6 +84,8 @@ struct s_fork
 /* philo.c */
 int					print(t_philo f, char *act, int id);
 void				*mythreadfun(void *vargp);
+int					check_philo(t_philo p);
+
 /* philo_utils.c */
 void				sleeping(t_fork *fork, unsigned long time, int id);
 unsigned long		get_time(void);

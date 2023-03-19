@@ -26,21 +26,21 @@ int	print(t_philo f, char *act, int id)
 	return (0);
 }
 
-int	check_philo(t_philo *p)
+int	check_philo(t_philo p)
 {
-	if (p->t_now - p->last_eat > p->fork->time_die)
+	if (p.t_now - p.last_eat > p.fork->time_die)
 	{
-		join_and_destroy(p->fork, p->id, '1');
+		join_and_destroy(p.fork, p.id, '1');
 		return (0);
 	}
-	pthread_mutex_lock(&p->fork->l_eat);
-	if (p->fork->n_eat != -1 && p->fork->n_eat <= 0)
+	pthread_mutex_lock(&p.fork->l_eat);
+	if (p.fork->n_eat != -1 && p.fork->n_eat <= 0)
 	{
-		join_and_destroy(p->fork, p->id, '0');
-		pthread_mutex_unlock(&p->fork->l_eat);
+		join_and_destroy(p.fork, p.id, '0');
+		pthread_mutex_unlock(&p.fork->l_eat);
 		return (0);
 	}
-	pthread_mutex_unlock(&p->fork->l_eat);
+	pthread_mutex_unlock(&p.fork->l_eat);
 	return (1);
 }
 
@@ -49,10 +49,10 @@ void	*mythreadfun(void *vargp)
 	t_philo	*p;
 
 	p = vargp;
-	while (!check_dead(p->fork, 1) && check_philo(p))
+	while (!check_dead(p->fork, 1) && check_philo(*p))
 	{
 		p->t_now = get_time();
-		if (check_philo(p) && !check_dead(p->fork, 1))
+		if (check_philo(*p) && !check_dead(p->fork, 1))
 		{
 			if (p->condition == TAKE)
 				take(p->fork, p->id, p->n_id);
