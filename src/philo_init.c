@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:41:48 by jvelasco          #+#    #+#             */
-/*   Updated: 2023/03/17 13:32:50 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/20 16:51:21 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_check_arg(t_fork *fork, char **argv, int argc)
 	}
 	else
 	{
-		fork->n_eat = -1;
+		fork->n_eat = 100000;
 		a = 'a';
 	}
 	if (!check_numbers(fork, a))
@@ -54,6 +54,7 @@ void	init_philo(int id, t_fork *f)
 	f->philos[id].condition = TAKE;
 	f->philos[id].id = id;
 	n_id = f->philos[id].id + 1;
+	f->philos[id].n_eat = f->n_eat / f->n_philos;
 	f->philos[id].n_id = n_id % f->n_philos;
 	f->philos[id].fork = (struct s_fork *)f;
 	f->philos[id].last_eat = f->philos[id].t_start;
@@ -70,7 +71,6 @@ void	init_mutex(t_fork *f)
 	pthread_mutex_init(&f->l_eat, NULL);
 	pthread_mutex_init(&f->d_eat, NULL);
 	pthread_mutex_init(&f->is_dead, NULL);
-	pthread_mutex_init(&f->nid, NULL);
 	f->id = 0;
 }
 

@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:42:25 by jvelasco          #+#    #+#             */
-/*   Updated: 2023/03/16 12:48:28 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/20 16:52:26 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,10 @@ struct s_fork
 	int				odd;
 	char			*is_avaliable;
 	pthread_mutex_t	*fork;
-	pthread_t		t_dead;
 	pthread_mutex_t	print;
 	pthread_mutex_t	l_eat;
 	pthread_mutex_t	d_eat;
 	pthread_mutex_t	is_dead;
-	pthread_mutex_t	nid;
 };
 
 /* philo.c */

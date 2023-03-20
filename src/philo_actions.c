@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:41:08 by jvelasco          #+#    #+#             */
-/*   Updated: 2023/03/17 14:47:32 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/20 16:43:08 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,16 @@ void	eat(t_fork *f, int id, int id_next)
 	print(f->philos[id], PHILO_EATS, id);
 	sleeping(f, f->time_eat, id);
 	pthread_mutex_lock(&f->l_eat);
-	if (f->n_eat != -1)
-		f->n_eat--;
+	f->philos[id].n_eat--;
+	f->n_eat--;
 	pthread_mutex_unlock(&f->l_eat);
 }
 
 void	take(t_fork *p, int id, int n_id)
 {
 	pthread_mutex_lock(&p->fork[id]);
-	if (p->is_avaliable[id] == '1' && check_philo(p->philos[id]))
+	if (p->is_avaliable[id] == '1' && check_philo(p->philos[id])
+		&& p->philos[id].n_eat > 0)
 	{
 		p->philos[id].t_now = get_time();
 		print(p->philos[id], LEFT_FORK_TAKEN, id);

@@ -6,7 +6,7 @@
 /*   By: jvelasco <jvelasco@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 16:41:58 by jvelasco          #+#    #+#             */
-/*   Updated: 2023/03/17 15:05:23 by jvelasco         ###   ########.fr       */
+/*   Updated: 2023/03/20 16:43:24 by jvelasco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_philo(t_philo p)
 		return (0);
 	}
 	pthread_mutex_lock(&p.fork->l_eat);
-	if (p.fork->n_eat != -1 && p.fork->n_eat <= 0)
+	if (p.fork->n_eat <= 0)
 	{
 		join_and_destroy(p.fork, p.id, '0');
 		pthread_mutex_unlock(&p.fork->l_eat);
