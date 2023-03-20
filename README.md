@@ -37,7 +37,7 @@ The program is compiled into a `philo` executable using `make all`
 
 ## Example usage
 The following example shows the result of 5 philosophers, that take 800ms to die, 200ms to eat, 200ms to sleep and will eat a minimum of 3 times (`./philo 5 800 200 200 3`):
-![](../Desktop/1.png?raw=true "shot 1")
+![](img/1.png?raw=true "shot 1")
 
 Visually, it looks something like this (screenshot from [philosophers-vizualizer](https://nafuka11.github.io/philosophers-visualizer/)):
 
